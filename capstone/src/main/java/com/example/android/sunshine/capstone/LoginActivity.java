@@ -1,6 +1,7 @@
 package com.example.android.sunshine.capstone;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.sunshine.capstone.util.FireBaseUtil;
+import com.example.android.sunshine.capstone.util.FirebaseUtil;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity implements Firebase.AuthRes
     @Bind(R.id.password)
     TextView password;
 
+    @Bind(R.id.register_button)
+    FloatingActionButton registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +55,15 @@ public class LoginActivity extends AppCompatActivity implements Firebase.AuthRes
 
     private void initFireBase() {
         Firebase.setAndroidContext(this);
-        FireBaseUtil.connect();
+        FirebaseUtil.connect();
     }
 
     private void initLoginActivity() {
         initLayout();
         initBindView();
         initEmailSignInButton(this);
+        initRegisterButton();
     }
-
 
 
     private void initLayout(){
@@ -75,10 +78,19 @@ public class LoginActivity extends AppCompatActivity implements Firebase.AuthRes
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FireBaseUtil.login(email.getText().toString(), password.getText().toString(), loginActivity);
+                        FirebaseUtil.login(email.getText().toString(), password.getText().toString(), loginActivity);
                     }
                 }
         );
+    }
+
+    private void initRegisterButton(){
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
