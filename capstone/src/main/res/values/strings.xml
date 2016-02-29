@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">Capstone</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Login Screen</string>
+    <string name="title_activity_register">Register Screen</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="prompt_repeat_email">Email Repeat</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_login">Login</string>
+    <string name="action_login_short">Login</string>
+    <string name="action_register">Register</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -14,4 +17,12 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Content description -->
+    <string name="email_cd">Enter Your Email</string>
+    <string name="password_cd">Enter Your Password</string>
+    <string name="login_cd">Login</string>
+    <string name="register_cd">Register New User</string>
+
+
 </resources>

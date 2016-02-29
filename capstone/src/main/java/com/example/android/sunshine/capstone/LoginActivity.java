@@ -1,9 +1,8 @@
 package com.example.android.sunshine.capstone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,17 +15,14 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements Firebase.AuthResultHandler{
+public class LoginActivity extends BaseActivity implements Firebase.AuthResultHandler{
 
     public static final String LOG_TAG = LoginActivity.class.getSimpleName();
-
-    private Toolbar toolbar;
-
+    public static final String LAYOUT_TITLE = "Login";
 
     @Bind(R.id.email_sign_in_button)
     Button emailSignInButton;
@@ -40,16 +36,15 @@ public class LoginActivity extends AppCompatActivity implements Firebase.AuthRes
     @Bind(R.id.register_button)
     FloatingActionButton registerButton;
 
+    public LoginActivity(){
+        super(LoginActivity.class.getSimpleName());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFireBase();
         initLoginActivity();
-    }
-
-
-    private void initBindView(){
-        ButterKnife.bind(this);
     }
 
 
@@ -59,17 +54,10 @@ public class LoginActivity extends AppCompatActivity implements Firebase.AuthRes
     }
 
     private void initLoginActivity() {
-        initLayout();
+        initLayout(R.layout.activity_login,LAYOUT_TITLE,false);
         initBindView();
         initEmailSignInButton(this);
-        initRegisterButton();
-    }
-
-
-    private void initLayout(){
-        setContentView(R.layout.activity_login);
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+        initRegisterButton(this);
     }
 
     private void initEmailSignInButton(final LoginActivity loginActivity){
@@ -84,11 +72,13 @@ public class LoginActivity extends AppCompatActivity implements Firebase.AuthRes
         );
     }
 
-    private void initRegisterButton(){
+    private void initRegisterButton(final LoginActivity loginActivity){
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(loginActivity, RegisterActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         });
     }

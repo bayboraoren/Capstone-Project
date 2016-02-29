@@ -23,4 +23,10 @@ public class FirebaseUtil {
         Log.i(LOG_TAG,email + " try to login");
     }
 
+
+    public static void registerUser(String email, String password,Firebase.ResultHandler resultHandler){
+        mFireBase.createUser(email, password, resultHandler);
+        Log.i(LOG_TAG, email + " try to register");
+    }
+
 }
