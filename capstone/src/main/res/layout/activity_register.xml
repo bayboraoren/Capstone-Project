@@ -49,7 +49,8 @@
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:contentDescription="@string/email_cd"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -64,7 +65,8 @@
                 android:hint="@string/prompt_repeat_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:contentDescription="@string/email_repeat_cd"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -83,7 +85,8 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:contentDescription="@string/password_cd"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -94,7 +97,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/action_register"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="@string/register_cd"/>
 
     </LinearLayout>
 

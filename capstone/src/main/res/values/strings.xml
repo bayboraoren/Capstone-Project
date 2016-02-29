@@ -19,10 +19,15 @@
     </string>
 
     <!-- Content description -->
+    <!-- Login -->
     <string name="email_cd">Enter Your Email</string>
     <string name="password_cd">Enter Your Password</string>
     <string name="login_cd">Login</string>
+    <string name="go_to_register_cd">Go To Register New User Screen</string>
     <string name="register_cd">Register New User</string>
+
+    <!-- Register -->
+    <string name="email_repeat_cd">Repeat Email</string>
 
 
 </resources>

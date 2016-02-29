@@ -96,7 +96,7 @@
         android:src="@drawable/ic_add_white_18dp"
         android:layout_margin="16dp"
         app:layout_anchorGravity="bottom|right|end"
-        android:contentDescription="@string/register_cd"/>
+        android:contentDescription="@string/go_to_register_cd"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
