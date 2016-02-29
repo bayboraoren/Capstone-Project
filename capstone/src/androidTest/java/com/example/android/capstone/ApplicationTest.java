@@ -1,4 +1,4 @@
-package com.example.android.sunshine.capstone;
+package com.example.android.capstone;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

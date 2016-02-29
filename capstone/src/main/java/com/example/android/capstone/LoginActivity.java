@@ -1,4 +1,4 @@
-package com.example.android.sunshine.capstone;
+package com.example.android.capstone;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.sunshine.capstone.util.FirebaseUtil;
+import com.example.android.capstone.util.FirebaseUtil;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -19,7 +19,7 @@ import butterknife.Bind;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity implements Firebase.AuthResultHandler{
+public class LoginActivity extends com.example.android.capstone.BaseActivity implements Firebase.AuthResultHandler{
 
     public static final String LOG_TAG = LoginActivity.class.getSimpleName();
     public static final String LAYOUT_TITLE = "Login";
@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity implements Firebase.AuthResultHa
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(loginActivity, RegisterActivity.class);
+                Intent intent = new Intent(loginActivity, com.example.android.capstone.RegisterActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }

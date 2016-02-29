@@ -1,4 +1,4 @@
-package com.example.android.sunshine.capstone;
+package com.example.android.capstone;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.sunshine.capstone.util.FirebaseUtil;
+import com.example.android.capstone.util.FirebaseUtil;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -17,9 +17,9 @@ import butterknife.Bind;
 /**
  * Created by baybora on 2/29/16.
  */
-public class RegisterActivity extends BaseActivity implements Firebase.ResultHandler{
+public class RegisterActivity extends com.example.android.capstone.BaseActivity implements Firebase.ResultHandler{
 
-    public static final String LOG_TAG = LoginActivity.class.getSimpleName();
+    public static final String LOG_TAG = com.example.android.capstone.LoginActivity.class.getSimpleName();
     public static final String LAYOUT_TITLE = "Register";
 
     @Bind(R.id.email)
@@ -49,7 +49,7 @@ public class RegisterActivity extends BaseActivity implements Firebase.ResultHan
 
 
     private void initRegisterActivity() {
-        initLayout(R.layout.activity_register, LAYOUT_TITLE, true, LoginActivity.LAYOUT_TITLE);
+        initLayout(R.layout.activity_register, LAYOUT_TITLE, true, com.example.android.capstone.LoginActivity.LAYOUT_TITLE);
         initBindView();
         initRegisterButton(this);
     }

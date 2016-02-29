@@ -1,4 +1,4 @@
-package com.example.android.sunshine.capstone.util;
+package com.example.android.capstone.util;
 
 import android.util.Log;
 
