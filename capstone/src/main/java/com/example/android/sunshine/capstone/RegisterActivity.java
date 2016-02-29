@@ -58,7 +58,7 @@ public class RegisterActivity extends BaseActivity implements Firebase.ResultHan
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseUtil.registerUser(email.getText().toString(), password.getText().toString(),registerActivity);
+                FirebaseUtil.registerUser(email.getText().toString(), password.getText().toString(), registerActivity);
             }
         });
     }
@@ -71,6 +71,8 @@ public class RegisterActivity extends BaseActivity implements Firebase.ResultHan
         String provider = authData.getProvider();
         Log.i(LOG_TAG, "User ID: " + uid + ", Provider: " + provider);
         Toast.makeText(RegisterActivity.this, "YOU REGISTERED", Toast.LENGTH_SHORT).show();
+
+        finish();
     }
 
     @Override
