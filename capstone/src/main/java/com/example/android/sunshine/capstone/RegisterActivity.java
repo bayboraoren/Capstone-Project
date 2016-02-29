@@ -49,7 +49,7 @@ public class RegisterActivity extends BaseActivity implements Firebase.ResultHan
 
 
     private void initRegisterActivity() {
-        initLayout(R.layout.activity_register,LAYOUT_TITLE,true);
+        initLayout(R.layout.activity_register, LAYOUT_TITLE, true, LoginActivity.LAYOUT_TITLE);
         initBindView();
         initRegisterButton(this);
     }

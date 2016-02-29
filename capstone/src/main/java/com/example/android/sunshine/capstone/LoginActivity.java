@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity implements Firebase.AuthResultHa
     }
 
     private void initLoginActivity() {
-        initLayout(R.layout.activity_login,LAYOUT_TITLE,false);
+        initLayout(R.layout.activity_login,LAYOUT_TITLE,false,"");
         initBindView();
         initEmailSignInButton(this);
         initRegisterButton(this);

@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
         LOG_TAG = classSimpleName;
     }
 
-    public void initLayout(int layout,String layoutTitle,boolean hasParent){
+    public void initLayout(int layout,String layoutTitle,boolean hasParent,String homeActionContentDescription){
         setContentView(layout);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(layoutTitle);
@@ -26,6 +26,7 @@ public class BaseActivity extends AppCompatActivity {
 
         if(hasParent){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeActionContentDescription("Go To " + homeActionContentDescription + " Screen");
         }
 
     }
