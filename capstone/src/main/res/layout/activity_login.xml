@@ -50,7 +50,8 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:contentDescription="@string/email_cd"/>
+                android:contentDescription="@string/email_cd"
+                android:textDirection="anyRtl"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +70,8 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:contentDescription="@string/password_cd"/>
+                android:contentDescription="@string/password_cd"
+                android:textDirection="anyRtl"/>
 
         </android.support.design.widget.TextInputLayout>
 
