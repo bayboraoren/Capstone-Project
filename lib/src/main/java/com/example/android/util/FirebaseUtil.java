@@ -1,6 +1,4 @@
-package com.example.android.capstone.util;
-
-import android.util.Log;
+package com.example.android.util;
 
 import com.firebase.client.Firebase;
 
@@ -20,13 +18,11 @@ public class FirebaseUtil {
 
     public static void login(String email, String password, Firebase.AuthResultHandler authResultHandler){
         mFireBase.authWithPassword(email, password, authResultHandler);
-        Log.i(LOG_TAG,email + " try to login");
     }
 
 
     public static void registerUser(String email, String password,Firebase.ResultHandler resultHandler){
         mFireBase.createUser(email, password, resultHandler);
-        Log.i(LOG_TAG, email + " try to register");
     }
 
 }
