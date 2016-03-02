@@ -1,4 +1,4 @@
-package com.example.android.capstone.domain;
+package com.example.android.util.domain;
 
 import java.util.List;
 
