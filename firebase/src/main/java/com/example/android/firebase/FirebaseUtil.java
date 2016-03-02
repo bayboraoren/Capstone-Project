@@ -1,14 +1,13 @@
 package com.example.android.firebase;
 
+import com.example.android.firebase.domain.DriversDomain;
+import com.example.android.firebase.domain.OrdersDomain;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 
 import java.util.HashMap;
-
-import com.example.android.firebase.util.DriversDomain;
-import com.example.android.firebase.util.OrdersDomain;
 
 /**
  * Created by baybora on 2/25/16.

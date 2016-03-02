@@ -1,4 +1,4 @@
-package com.example.android.firebase.util;
+package com.example.android.firebase.domain;
 
 import android.os.Parcel;
 

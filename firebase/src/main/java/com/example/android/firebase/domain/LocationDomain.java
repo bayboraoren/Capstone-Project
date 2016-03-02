@@ -1,9 +1,12 @@
-package com.example.android.firebase.util;
+package com.example.android.firebase.domain;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by baybora on 3/2/16.
  */
-public class LocationDomain implements android.os.Parcelable {
+public class LocationDomain implements Parcelable {
 
     public static final String LONGITUDE="lon";
     public static final String LATITUDE="lat";
@@ -27,13 +30,14 @@ public class LocationDomain implements android.os.Parcelable {
         this.latitude = latitude;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(android.os.Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.longitude);
         dest.writeString(this.latitude);
     }
@@ -41,9 +45,18 @@ public class LocationDomain implements android.os.Parcelable {
     public LocationDomain() {
     }
 
-    protected LocationDomain(android.os.Parcel in) {
+    protected LocationDomain(Parcel in) {
         this.longitude = in.readString();
         this.latitude = in.readString();
     }
 
+    public static final Parcelable.Creator<LocationDomain> CREATOR = new Parcelable.Creator<LocationDomain>() {
+        public LocationDomain createFromParcel(Parcel source) {
+            return new LocationDomain(source);
+        }
+
+        public LocationDomain[] newArray(int size) {
+            return new LocationDomain[size];
+        }
+    };
 }
