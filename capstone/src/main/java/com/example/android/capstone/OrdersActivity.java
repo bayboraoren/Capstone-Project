@@ -5,12 +5,12 @@ import android.widget.TextView;
 
 import com.example.android.capstone.util.Utils;
 import com.example.android.util.FirebaseUtil;
+import com.example.android.util.domain.DriversDomain;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 
 import java.util.Date;
-import java.util.HashMap;
 
 import butterknife.Bind;
 
@@ -48,7 +48,8 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity{
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                name.setText(Utils.getString(getBaseContext(),R.string.hello) + ((HashMap)dataSnapshot.getValue()).get("name"));
+                DriversDomain driversDomain = FirebaseUtil.convertToDriversDomain(dataSnapshot);
+                name.setText(Utils.getString(getBaseContext(),R.string.hello) + driversDomain.getName());
             }
 
             @Override

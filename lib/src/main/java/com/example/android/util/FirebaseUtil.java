@@ -1,8 +1,12 @@
 package com.example.android.util;
 
+import com.example.android.util.domain.DriversDomain;
 import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
+
+import java.util.HashMap;
 
 /**
  * Created by baybora on 2/25/16.
@@ -34,6 +38,16 @@ public class FirebaseUtil {
 
     public static void getOrders() {
 
+    }
+
+    public static DriversDomain convertToDriversDomain(DataSnapshot dataSnapshot){
+        DriversDomain driversDomain = new DriversDomain();
+        HashMap hashMap = ((HashMap)dataSnapshot.getValue());
+        driversDomain.setName((String) hashMap.get(DriversDomain.NAME));
+        driversDomain.setSurname((String) hashMap.get(DriversDomain.SURNAME));
+        driversDomain.setEmail((String) hashMap.get(DriversDomain.EMAIL));
+        driversDomain.setImageBase64((String) hashMap.get(DriversDomain.IMAGE_BASE_64));
+        return driversDomain;
     }
 
 }
