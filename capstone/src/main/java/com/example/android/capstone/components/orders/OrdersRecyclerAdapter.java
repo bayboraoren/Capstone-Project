@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.util.Utils;
-import com.example.android.util.domain.OrdersDomain;
+import com.example.android.firebase.util.OrdersDomain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +24,16 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
 
     public static final String LOG_TAG = OrdersRecyclerAdapter.class.getSimpleName();
     public Activity mActivity;
-    private List<OrdersDomain> mOrdersDomains=new ArrayList<>();
+    public List<OrdersDomain> mOrdersDomains=new ArrayList<>();
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView mOrderImageBase64;
         private TextView mOrderName;
         private TextView mOrderDistanceKM;
         private Activity mActivity;
+        private OrdersDomain mOrdersDomain;
 
 
         public ViewHolder(View view, final Activity activity) {
@@ -49,15 +50,14 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
 
         @Override
         public void onClick(View view) {
-            Log.i(LOG_TAG, "");
 
+            Log.i(LOG_TAG, "");
             Intent intent = new Intent(mActivity, com.example.android.capstone.RouteActivity.class);
             mActivity.startActivity(intent);
             mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
-            Log.d("", getAdapterPosition() + "");
-
         }
+
     }
 
     public OrdersRecyclerAdapter(Activity activity) {
@@ -96,6 +96,8 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
         holder.mOrderDistanceKM.setText("");
         holder.mOrderName.setText(ordersDomain.getName());
         holder.mOrderImageBase64.setImageBitmap(Utils.convertImageToBase64(ordersDomain.getImageBase64()));
+        holder.mOrdersDomain = ordersDomain;
+
 
     }
 

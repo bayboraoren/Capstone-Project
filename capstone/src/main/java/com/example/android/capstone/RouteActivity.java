@@ -2,7 +2,7 @@ package com.example.android.capstone;
 
 import android.os.Bundle;
 
-import com.example.android.util.FirebaseUtil;
+import com.example.android.firebase.FirebaseUtil;
 import com.firebase.client.Firebase;
 
 /**
