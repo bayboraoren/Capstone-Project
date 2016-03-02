@@ -1,6 +1,7 @@
 package com.example.android.capstone.components.orders;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,12 @@ import java.util.List;
 /**
  * Created by baybora on 3/2/16.
  */
-public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAdapter.ViewHolder> {
+public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAdapter.ViewHolder>{
 
     private List<OrdersDomain> mOrdersDomains=new ArrayList<>();
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public ImageView mOrderImageBase64;
         public TextView mOrderName;
@@ -31,10 +32,16 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
         public ViewHolder(View view) {
             super(view);
 
+            view.setOnClickListener(this);
             mOrderImageBase64 = (ImageView)view.findViewById(R.id.order_imagebase64);
             mOrderName = (TextView)view.findViewById(R.id.order_name);
             mOrderDistanceKM = (TextView)view.findViewById(R.id.order_distance_km);
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d("", getAdapterPosition() + "");
         }
 
     }
@@ -62,6 +69,8 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
         return vh;
 
     }
+
+
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override

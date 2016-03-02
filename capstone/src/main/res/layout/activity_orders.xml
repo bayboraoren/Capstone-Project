@@ -23,7 +23,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:fitsSystemWindows="true">
@@ -31,6 +30,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="140dp"
+            android:background="@color/colorPrimary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -77,8 +77,9 @@
             android:id="@+id/orders_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             />
 
 

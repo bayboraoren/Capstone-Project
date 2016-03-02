@@ -32,6 +32,12 @@
             android:label="@string/title_activity_register"
             android:parentActivityName=".LoginActivity" >
         </activity>
+        <activity
+            android:name=".RouteActivity"
+            android:label="@string/title_activity_route"
+            android:parentActivityName=".OrdersActivity" >
+        </activity>
+
     </application>
 
 </manifest>

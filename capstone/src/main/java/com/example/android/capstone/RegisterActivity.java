@@ -46,7 +46,7 @@ public class RegisterActivity extends com.example.android.capstone.BaseActivity 
 
 
     private void initRegisterActivity() {
-        initLayout(R.layout.activity_register, LAYOUT_TITLE, true, com.example.android.capstone.LoginActivity.LAYOUT_TITLE);
+        initLayout(R.layout.activity_register, LAYOUT_TITLE, true, LoginActivity.LAYOUT_TITLE);
         initBindView();
         initRegisterButton(this);
     }

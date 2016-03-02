@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_margin="2dp"
+    android:background="@drawable/order_item_background"
+    android:clickable="true">
 
     <com.example.android.capstone.components.driver.DriverRoundedImage
         android:id="@+id/order_imagebase64"
@@ -28,5 +30,7 @@
         android:textSize="16dp"
         android:textStyle="bold"
         android:text="KM" />
+
+
 
 </LinearLayout>

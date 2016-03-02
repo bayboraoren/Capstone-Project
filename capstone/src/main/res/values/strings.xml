@@ -2,7 +2,8 @@
     <string name="app_name">Capstone</string>
     <string name="title_activity_login">Login Screen</string>
     <string name="title_activity_register">Register Screen</string>
-    <string name="title_activity_main">Orders Screen</string>
+    <string name="title_activity_orders">Orders Screen</string>
+    <string name="title_activity_route">Route Screen</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -33,5 +34,8 @@
 
     <!-- Order Activity -->
     <string name="hello">Hello, </string>
+
+    <!-- Route Activity -->
+    <string name="is_delivered">Delivered ?</string>
 
 </resources>
