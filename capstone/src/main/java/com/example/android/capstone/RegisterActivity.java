@@ -19,9 +19,6 @@ import butterknife.Bind;
  */
 public class RegisterActivity extends com.example.android.capstone.BaseActivity implements Firebase.ResultHandler{
 
-    public static final String LOG_TAG = com.example.android.capstone.LoginActivity.class.getSimpleName();
-    public static final String LAYOUT_TITLE = "Register";
-
     @Bind(R.id.email)
     TextView email;
 
@@ -37,7 +34,7 @@ public class RegisterActivity extends com.example.android.capstone.BaseActivity 
 
 
     public RegisterActivity(){
-        super(RegisterActivity.class.getSimpleName());
+        super(RegisterActivity.class.getSimpleName(),"Register");
     }
 
     @Override

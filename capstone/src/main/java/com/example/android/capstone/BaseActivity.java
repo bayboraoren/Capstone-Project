@@ -10,12 +10,14 @@ import butterknife.ButterKnife;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    public static String LOG_TAG = BaseActivity.class.getSimpleName();
+    public static String LOG_TAG;
+    public static String LAYOUT_TITLE;
 
     public Toolbar toolbar;
 
-    public BaseActivity(String classSimpleName){
+    public BaseActivity(String classSimpleName,String layoutTitle){
         LOG_TAG = classSimpleName;
+        LAYOUT_TITLE = layoutTitle;
     }
 
     public void initLayout(int layout,String layoutTitle,boolean hasParent,String homeActionContentDescription){

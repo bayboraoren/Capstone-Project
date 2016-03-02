@@ -21,9 +21,6 @@ import butterknife.Bind;
  */
 public class LoginActivity extends com.example.android.capstone.BaseActivity implements Firebase.AuthResultHandler{
 
-    public static final String LOG_TAG = LoginActivity.class.getSimpleName();
-    public static final String LAYOUT_TITLE = "Login";
-
     @Bind(R.id.email_sign_in_button)
     Button emailSignInButton;
 
@@ -37,7 +34,7 @@ public class LoginActivity extends com.example.android.capstone.BaseActivity imp
     FloatingActionButton registerButton;
 
     public LoginActivity(){
-        super(LoginActivity.class.getSimpleName());
+        super(LoginActivity.class.getSimpleName(),"Login");
     }
 
     @Override
