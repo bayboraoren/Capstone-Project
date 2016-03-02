@@ -1,6 +1,7 @@
 package com.example.android.capstone;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.capstone.util.Utils;
@@ -25,6 +26,8 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity{
     @Bind(R.id.date)
     TextView date;
 
+    @Bind(R.id.driver_imagebase64)
+    ImageView driverImageBase64;
 
     public OrdersActivity() {
         super(OrdersActivity.class.getSimpleName(), "ORDERS");
@@ -49,7 +52,8 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity{
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 DriversDomain driversDomain = FirebaseUtil.convertToDriversDomain(dataSnapshot);
-                name.setText(Utils.getString(getBaseContext(),R.string.hello) + driversDomain.getName());
+                name.setText(Utils.getString(getBaseContext(), R.string.hello) + driversDomain.getName());
+                driverImageBase64.setImageBitmap(Utils.convertImageToBase64(driversDomain.getImageBase64()));
             }
 
             @Override

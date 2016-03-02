@@ -28,7 +28,8 @@
         android:background="@color/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView android:src="@drawable/driver"
+        <ImageView
+            android:id="@+id/driver_imagebase64"
             android:layout_height="100dp"
             android:layout_gravity="top|center"
             android:layout_width="100dp"
