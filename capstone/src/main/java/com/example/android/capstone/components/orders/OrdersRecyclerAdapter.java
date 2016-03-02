@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.android.capstone.R;
 import com.example.android.capstone.util.Utils;
-import com.example.android.firebase.util.OrdersDomain;
+import com.example.android.firebase.domain.OrdersDomain;
 
 import java.util.ArrayList;
 import java.util.List;
