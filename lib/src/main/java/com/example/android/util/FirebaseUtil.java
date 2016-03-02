@@ -1,6 +1,7 @@
 package com.example.android.util;
 
 import com.example.android.util.domain.DriversDomain;
+import com.example.android.util.domain.OrdersDomain;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -36,8 +37,9 @@ public class FirebaseUtil {
         query.addChildEventListener(childEventListener);
     }
 
-    public static void getOrders() {
-
+    public static void getOrders(ChildEventListener childEventListener) {
+        Query query = mFireBase.child("orders");
+        query.addChildEventListener(childEventListener);
     }
 
     public static DriversDomain convertToDriversDomain(DataSnapshot dataSnapshot){
@@ -49,5 +51,20 @@ public class FirebaseUtil {
         driversDomain.setImageBase64((String) hashMap.get(DriversDomain.IMAGE_BASE_64));
         return driversDomain;
     }
+
+    public static OrdersDomain convertToOrdersDomainList(DataSnapshot dataSnapshot){
+
+        HashMap hashMap = ((HashMap)dataSnapshot.getValue());
+
+        OrdersDomain ordersDomain = new OrdersDomain();
+        ordersDomain.setName((String)hashMap.get(OrdersDomain.NAME));
+        ordersDomain.setImageBase64((String) hashMap.get(OrdersDomain.IMAGE_BASE_64));
+        ordersDomain.setCustomer((String) hashMap.get(OrdersDomain.CUSTOMER));
+        ordersDomain.setLongitude((String) hashMap.get(OrdersDomain.LONGITUDE));
+        ordersDomain.setLatitude((String) hashMap.get(OrdersDomain.LATITUDE));
+
+        return ordersDomain;
+    }
+
 
 }

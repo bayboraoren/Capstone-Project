@@ -5,6 +5,9 @@ package com.example.android.util.domain;
  */
 public class LocationDomain {
 
+    public static final String LONGITUDE="lon";
+    public static final String LATITUDE="lat";
+
     private String longitude;
     private String latitude;
 

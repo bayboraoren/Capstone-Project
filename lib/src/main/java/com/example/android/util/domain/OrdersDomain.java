@@ -1,5 +1,7 @@
 package com.example.android.util.domain;
 
+import java.util.List;
+
 /**
  * Created by baybora on 3/2/16.
  */
@@ -9,9 +11,11 @@ public class OrdersDomain extends LocationDomain{
     public static final String CUSTOMER="customer";
     public static final String IMAGE_BASE_64="imagebase64";
 
+
     private String name;
     private String customer;
     private String imageBase64;
+    private List<DriversDomain> driversDomains;
 
     public String getName() {
         return name;
@@ -37,4 +41,11 @@ public class OrdersDomain extends LocationDomain{
         this.imageBase64 = imageBase64;
     }
 
+    public List<DriversDomain> getDriversDomains() {
+        return driversDomains;
+    }
+
+    public void setDriversDomains(List<DriversDomain> driversDomains) {
+        this.driversDomains = driversDomains;
+    }
 }

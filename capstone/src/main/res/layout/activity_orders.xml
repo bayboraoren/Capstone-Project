@@ -10,9 +10,9 @@
     <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        app:layout_scrollFlags="scroll|enterAlways">
-
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <include
             android:id="@+id/tool_bar"
@@ -22,44 +22,65 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:columnCount="2"
-        android:rowCount="1"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <ImageView
-            android:id="@+id/driver_imagebase64"
-            android:layout_height="100dp"
-            android:layout_gravity="top|center"
-            android:layout_width="100dp"
-            android:layout_margin="20dp"/>
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fitsSystemWindows="true">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_height="140dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/name"
+
+            <ImageView
+                android:id="@+id/driver_imagebase64"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="top|center"
+                android:layout_margin="20dp"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"
+                android:background="@drawable/driver_border"/>
+
+            <LinearLayout
+                android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="name"
-                android:textStyle="bold"
-                android:textColor="#fff"
-                android:textSize="20dp"/>
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="date"
-                android:textColor="#fff"
-                android:textSize="15dp"/>
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textColor="#fff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="date"
+                    android:textColor="#fff"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
         </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orders_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
 
     </LinearLayout>
 
