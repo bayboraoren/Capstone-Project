@@ -27,6 +27,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
+        <activity
+            android:name=".OrdersActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity" >
+        </activity>
     </application>
 
 </manifest>

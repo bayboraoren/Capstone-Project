@@ -84,7 +84,10 @@ public class LoginActivity extends com.example.android.capstone.BaseActivity imp
     @Override
     public void onAuthenticated(AuthData authData) {
         Log.i(LOG_TAG, "User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
-        Toast.makeText(LoginActivity.this, "YOU LOGGED IN", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, com.example.android.capstone.OrdersActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
     }
 
     @Override

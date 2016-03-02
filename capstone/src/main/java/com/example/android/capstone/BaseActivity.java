@@ -21,6 +21,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void initLayout(int layout,String layoutTitle,boolean hasParent,String homeActionContentDescription){
+
         setContentView(layout);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(layoutTitle);
