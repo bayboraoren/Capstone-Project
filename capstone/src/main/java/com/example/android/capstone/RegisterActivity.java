@@ -78,6 +78,6 @@ public class RegisterActivity extends com.example.android.capstone.BaseActivity 
     @Override
     public void onError(FirebaseError firebaseError) {
         Log.e(LOG_TAG, firebaseError.getMessage() + " " + firebaseError.getDetails());
-        Toast.makeText(RegisterActivity.this, "YOU CAN NOT REGISTERED", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterActivity.this, "YOU CAN NOT REGISTERED : " + firebaseError.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
