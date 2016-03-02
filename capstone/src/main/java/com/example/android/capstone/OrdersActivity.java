@@ -102,7 +102,7 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mOrdersAdapter = new OrdersRecyclerAdapter();
+        mOrdersAdapter = new OrdersRecyclerAdapter(this);
         mRecyclerView.setAdapter(mOrdersAdapter);
 
         ChildEventListener childEventListener = new ChildEventListener() {

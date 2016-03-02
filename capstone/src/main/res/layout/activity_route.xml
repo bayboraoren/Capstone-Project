@@ -1,72 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.android.capstone.LoginActivity">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
+        app:layout_scrollFlags="scroll|enterAlways">
 
-        <com.example.android.capstone.components.driver.DriverRoundedImage
-            android:id="@+id/order_imagebase64"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="10dp" />
 
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/toolbar"></include>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_margin="2dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/order_name"
+            <com.example.android.capstone.components.driver.DriverRoundedImage
+                android:id="@+id/order_imagebase64"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp" />
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="ISIM"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/order_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="ISIM"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/customer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="CUSTOMER"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/customer"
+                android:id="@+id/order_distance_km"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="CUSTOMER"
+                android:text="KM"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/order_distance_km"
-            android:layout_width="wrap_content"
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="KM"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+             />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/is_delivered"
+            android:layout_weight="3"
+            />
 
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/map"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="match_parent" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="@string/is_delivered" />
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

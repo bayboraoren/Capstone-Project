@@ -11,7 +11,7 @@ import com.firebase.client.Firebase;
 public class RouteActivity extends com.example.android.capstone.BaseActivity{
 
     public RouteActivity(){
-        super(RouteActivity.class.getSimpleName(),"Route");
+        super(RouteActivity.class.getSimpleName(),"ROUTE");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity{
     }
 
     private void initRouteActivity() {
-        initLayout(R.layout.activity_login,LAYOUT_TITLE,true,OrdersActivity.LAYOUT_TITLE);
+        initLayout(R.layout.activity_route,LAYOUT_TITLE,true,OrdersActivity.LAYOUT_TITLE);
         initBindView();
     }
 

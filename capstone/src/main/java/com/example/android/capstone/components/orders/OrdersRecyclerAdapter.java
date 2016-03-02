@@ -1,5 +1,7 @@
 package com.example.android.capstone.components.orders;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,36 +22,47 @@ import java.util.List;
  */
 public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAdapter.ViewHolder>{
 
+    public static final String LOG_TAG = OrdersRecyclerAdapter.class.getSimpleName();
+    public Activity mActivity;
     private List<OrdersDomain> mOrdersDomains=new ArrayList<>();
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public ImageView mOrderImageBase64;
-        public TextView mOrderName;
-        public TextView mOrderDistanceKM;
+        private ImageView mOrderImageBase64;
+        private TextView mOrderName;
+        private TextView mOrderDistanceKM;
+        private Activity mActivity;
 
-        public ViewHolder(View view) {
+
+        public ViewHolder(View view, final Activity activity) {
             super(view);
 
-            view.setOnClickListener(this);
             mOrderImageBase64 = (ImageView)view.findViewById(R.id.order_imagebase64);
             mOrderName = (TextView)view.findViewById(R.id.order_name);
             mOrderDistanceKM = (TextView)view.findViewById(R.id.order_distance_km);
+
+            mActivity = activity;
+            view.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View view) {
-            Log.d("", getAdapterPosition() + "");
-        }
+            Log.i(LOG_TAG, "");
 
+            Intent intent = new Intent(mActivity, com.example.android.capstone.RouteActivity.class);
+            mActivity.startActivity(intent);
+            mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+            Log.d("", getAdapterPosition() + "");
+
+        }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    /*public OrdersRecyclerAdapter(List<OrdersDomain> ordersDomains) {
-        mOrdersDomains = ordersDomains;
-    }*/
+    public OrdersRecyclerAdapter(Activity activity) {
+        mActivity = activity;
+    }
 
     public void add(OrdersDomain ordersDomain){
         mOrdersDomains.add(ordersDomain);
@@ -65,7 +78,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
                 .inflate(R.layout.order_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v,mActivity);
         return vh;
 
     }

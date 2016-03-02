@@ -34,7 +34,7 @@ public class RegisterActivity extends com.example.android.capstone.BaseActivity 
 
 
     public RegisterActivity(){
-        super(RegisterActivity.class.getSimpleName(),"Register");
+        super(RegisterActivity.class.getSimpleName(),"REGISTER");
     }
 
     @Override

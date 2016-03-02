@@ -34,7 +34,7 @@ public class LoginActivity extends com.example.android.capstone.BaseActivity imp
     FloatingActionButton registerButton;
 
     public LoginActivity(){
-        super(LoginActivity.class.getSimpleName(),"Login");
+        super(LoginActivity.class.getSimpleName(),"LOGIN");
     }
 
     @Override
