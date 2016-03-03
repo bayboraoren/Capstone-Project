@@ -130,11 +130,14 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
 
                     for (int i = 0; i < direction.getRouteList().size(); i++) {
+
                         Route route = direction.getRouteList().get(i);
-                        //String color = colors[i % colors.length];
+                        setDistance(route);
+
 
                         ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
                         mGoogleMap.addPolyline(DirectionConverter.createPolyline(mActivity, directionPositionList, 5, ContextCompat.getColor(mActivity,R.color.colorPrimaryTransparent)));
+
                     }
 
 
@@ -154,5 +157,8 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     }
 
-
+    private void setDistance(Route route){
+        String distance = route.getLegList().get(0).getDistance().getText();
+        orderDistanceKM.setText(distance);
+    }
 }
