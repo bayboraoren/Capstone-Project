@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.android.capstone.components.orders.OrdersRecyclerAdapter;
 import com.example.android.capstone.util.Utils;
 import com.example.android.firebase.FirebaseUtil;
-import com.example.android.firebase.util.DriversDomain;
+import com.example.android.firebase.domain.DriversDomain;
 import com.example.android.firebase.domain.OrdersDomain;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;

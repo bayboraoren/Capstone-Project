@@ -53,6 +53,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
 
             Log.i(LOG_TAG, "");
             Intent intent = new Intent(mActivity, com.example.android.capstone.RouteActivity.class);
+            intent.putExtra(OrdersDomain.DOMAIN_NAME,mOrdersDomain);
             mActivity.startActivity(intent);
             mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
