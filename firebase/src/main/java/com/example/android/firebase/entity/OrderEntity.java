@@ -1,23 +1,33 @@
-package com.example.android.firebase.domain;
+package com.example.android.firebase.entity;
 
 import android.os.Parcel;
+import android.os.Parcelable;
+import android.provider.BaseColumns;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 import java.util.List;
 
 /**
- * Created by baybora on 3/2/16.
+ * Created by baybora on 3/3/16.
  */
-public class OrdersDomain extends LocationDomain {
+@Table(name = "Orders",id = BaseColumns._ID)
+public class OrderEntity extends Model implements Parcelable {
 
-
+    @Column
     private String name;
+    @Column(unique = true)
     private String customer;
+    @Column
     private String imageBase64;
-    private List<DriversDomain> driversDomains;
+    @Column
     private String distanceKM;
+    @Column(name="location")
+    private LocationEntity locationEntity;
 
-    //when order selected and start to deliver
-    private long orderStartDeliverTime;
+    private transient long orderStartDeliverTime;
 
     public String getName() {
         return name;
@@ -43,20 +53,24 @@ public class OrdersDomain extends LocationDomain {
         this.imageBase64 = imageBase64;
     }
 
-    public List<DriversDomain> getDriversDomains() {
-        return driversDomains;
-    }
-
-    public void setDriversDomains(List<DriversDomain> driversDomains) {
-        this.driversDomains = driversDomains;
-    }
-
     public String getDistanceKM() {
         return distanceKM;
     }
 
     public void setDistanceKM(String distanceKM) {
         this.distanceKM = distanceKM;
+    }
+
+    public LocationEntity getLocationEntity() {
+        return locationEntity;
+    }
+
+    public void setLocationEntity(LocationEntity locationEntity) {
+        this.locationEntity = locationEntity;
+    }
+
+    public List<DriverEntity> drivers(){
+        return getMany(DriverEntity.class,"OrderEntity");
     }
 
     public long getOrderStartDeliverTime() {
@@ -67,9 +81,6 @@ public class OrdersDomain extends LocationDomain {
         this.orderStartDeliverTime = orderStartDeliverTime;
     }
 
-    public OrdersDomain() {
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -77,37 +88,33 @@ public class OrdersDomain extends LocationDomain {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeString(this.name);
         dest.writeString(this.customer);
         dest.writeString(this.imageBase64);
-        dest.writeTypedList(driversDomains);
         dest.writeString(this.distanceKM);
+        dest.writeParcelable(this.locationEntity, flags);
         dest.writeLong(this.orderStartDeliverTime);
-        dest.writeString(this.getLongitude());
-        dest.writeString(this.getLatitude());
     }
 
-    protected OrdersDomain(Parcel in) {
-        super(in);
+    public OrderEntity() {
+    }
+
+    protected OrderEntity(Parcel in) {
         this.name = in.readString();
         this.customer = in.readString();
         this.imageBase64 = in.readString();
-        this.driversDomains = in.createTypedArrayList(DriversDomain.CREATOR);
         this.distanceKM = in.readString();
+        this.locationEntity = in.readParcelable(LocationEntity.class.getClassLoader());
         this.orderStartDeliverTime = in.readLong();
-        this.setLongitude(in.readString());
-        this.setLatitude(in.readString());
-
     }
 
-    public static final Creator<OrdersDomain> CREATOR = new Creator<OrdersDomain>() {
-        public OrdersDomain createFromParcel(Parcel source) {
-            return new OrdersDomain(source);
+    public static final Parcelable.Creator<OrderEntity> CREATOR = new Parcelable.Creator<OrderEntity>() {
+        public OrderEntity createFromParcel(Parcel source) {
+            return new OrderEntity(source);
         }
 
-        public OrdersDomain[] newArray(int size) {
-            return new OrdersDomain[size];
+        public OrderEntity[] newArray(int size) {
+            return new OrderEntity[size];
         }
     };
 }

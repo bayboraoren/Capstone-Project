@@ -50,4 +50,13 @@ public class LocationDomain implements Parcelable {
         this.latitude = in.readString();
     }
 
+    public static final Creator<LocationDomain> CREATOR = new Creator<LocationDomain>() {
+        public LocationDomain createFromParcel(Parcel source) {
+            return new LocationDomain(source);
+        }
+
+        public LocationDomain[] newArray(int size) {
+            return new LocationDomain[size];
+        }
+    };
 }

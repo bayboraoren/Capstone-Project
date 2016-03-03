@@ -2,6 +2,9 @@ package com.example.android.firebase;
 
 import com.example.android.firebase.domain.DriversDomain;
 import com.example.android.firebase.domain.OrdersDomain;
+import com.example.android.firebase.entity.LocationEntity;
+import com.example.android.firebase.entity.OrderEntity;
+import com.example.android.firebase.entity.OrderEntityHelper;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -24,6 +27,7 @@ public class FirebaseUtil {
     }
 
     public static void login(String email, String password, Firebase.AuthResultHandler authResultHandler) {
+        mFireBase.unauth();
         mFireBase.authWithPassword(email, password, authResultHandler);
     }
 
@@ -58,13 +62,38 @@ public class FirebaseUtil {
         HashMap hashMap = ((HashMap)dataSnapshot.getValue());
 
         OrdersDomain ordersDomain = new OrdersDomain();
-        ordersDomain.setName((String)hashMap.get(OrdersDomain.NAME));
-        ordersDomain.setImageBase64((String) hashMap.get(OrdersDomain.IMAGE_BASE_64));
-        ordersDomain.setCustomer((String) hashMap.get(OrdersDomain.CUSTOMER));
-        ordersDomain.setLongitude((String) hashMap.get(OrdersDomain.LONGITUDE));
-        ordersDomain.setLatitude((String) hashMap.get(OrdersDomain.LATITUDE));
+        ordersDomain.setName((String)hashMap.get(OrderEntityHelper.NAME));
+        ordersDomain.setImageBase64((String) hashMap.get(OrderEntityHelper.IMAGE_BASE_64));
+        ordersDomain.setCustomer((String) hashMap.get(OrderEntityHelper.CUSTOMER));
+        ordersDomain.setLongitude((String) hashMap.get(OrderEntityHelper.LONGITUDE));
+        ordersDomain.setLatitude((String) hashMap.get(OrderEntityHelper.LATITUDE));
 
         return ordersDomain;
+    }
+
+    public static OrderEntity saveOrderEntity(DataSnapshot dataSnapshot){
+
+        HashMap hashMap = ((HashMap)dataSnapshot.getValue());
+
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setName((String)hashMap.get(OrderEntityHelper.NAME));
+        orderEntity.setImageBase64((String) hashMap.get(OrderEntityHelper.IMAGE_BASE_64));
+        orderEntity.setCustomer((String) hashMap.get(OrderEntityHelper.CUSTOMER));
+        orderEntity.setLocationEntity(saveLocationEntity(dataSnapshot));
+        orderEntity.save();
+
+        return orderEntity;
+    }
+
+    public static LocationEntity saveLocationEntity(DataSnapshot dataSnapshot){
+        HashMap hashMap = ((HashMap)dataSnapshot.getValue());
+
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setLatitude((String) hashMap.get(OrderEntityHelper.LATITUDE));
+        locationEntity.setLongitude((String) hashMap.get(OrderEntityHelper.LONGITUDE));
+        locationEntity.save();
+
+        return locationEntity;
     }
 
 
