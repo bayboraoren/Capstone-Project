@@ -1,1 +1,1 @@
-include ':capstone', ':lib'
+include ':capstone', ':firebase'
