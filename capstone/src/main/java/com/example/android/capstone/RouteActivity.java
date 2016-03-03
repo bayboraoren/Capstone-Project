@@ -2,9 +2,10 @@ package com.example.android.capstone;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -52,9 +55,8 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     //map
     private GoogleMap mGoogleMap;
-    private LatLng camera = new LatLng(35.1773909, 136.9471357);
-    private LatLng origin = new LatLng(35.1766982, 136.9413508);
-    private LatLng destination = new LatLng(35.1800441, 136.9532567);
+    private LatLng myLatLng;
+    private LatLng toLatLng;
     private String[] colors = {"#7fff7272", "#7f31c7c5", "#7fff8a00"};
 
     public RouteActivity() {
@@ -90,10 +92,16 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
             @Override
             public void onMapReady(final GoogleMap googleMap) {
                 mGoogleMap = googleMap;
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(camera, 15));
+
+                Location myLocation = Utils.getLastKnownLocation(mActivity);
+                myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+                toLatLng = new LatLng(Double.parseDouble(ordersDomain.getLatitude()), Double.parseDouble(ordersDomain.getLongitude()));
+
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 14));
+
                 GoogleDirection.withServerKey(getResources().getString(R.string.google_maps_direction_key))
-                        .from(origin)
-                        .to(destination)
+                        .from(myLatLng)
+                        .to(toLatLng)
                         .transportMode(TransportMode.WALKING)
                                 //.avoid(AvoidType.FERRIES)
                                 //.avoid(AvoidType.HIGHWAYS)
@@ -114,15 +122,19 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
                 if (direction.isOK()) {
 
-                    mGoogleMap.addMarker(new MarkerOptions().position(origin));
-                    mGoogleMap.addMarker(new MarkerOptions().position(destination));
+                    BitmapDescriptor fromMarkerIcon = BitmapDescriptorFactory.fromResource(R.drawable.marker_me);
+                    mGoogleMap.addMarker(new MarkerOptions().position(myLatLng).icon(fromMarkerIcon));
+
+                    BitmapDescriptor toMarkerIcon = BitmapDescriptorFactory.fromResource(R.drawable.marker_customer_2);
+                    mGoogleMap.addMarker(new MarkerOptions().position(toLatLng).icon(toMarkerIcon));
 
 
                     for (int i = 0; i < direction.getRouteList().size(); i++) {
                         Route route = direction.getRouteList().get(i);
-                        String color = colors[i % colors.length];
+                        //String color = colors[i % colors.length];
+
                         ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
-                        mGoogleMap.addPolyline(DirectionConverter.createPolyline(mActivity, directionPositionList, 5, Color.parseColor(color)));
+                        mGoogleMap.addPolyline(DirectionConverter.createPolyline(mActivity, directionPositionList, 5, ContextCompat.getColor(mActivity,R.color.colorPrimaryTransparent)));
                     }
 
 
@@ -141,5 +153,6 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
     public void onDirectionFailure(Throwable t) {
 
     }
+
 
 }
