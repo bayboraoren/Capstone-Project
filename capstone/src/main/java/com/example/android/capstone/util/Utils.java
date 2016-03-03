@@ -22,7 +22,7 @@ public class Utils {
         return context.getResources().getString(name);
     }
 
-    public static Bitmap convertImageToBase64(String imageBase64){
+    public static Bitmap convertBase64ToImage(String imageBase64){
         byte[] decodedString = Base64.decode(imageBase64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;

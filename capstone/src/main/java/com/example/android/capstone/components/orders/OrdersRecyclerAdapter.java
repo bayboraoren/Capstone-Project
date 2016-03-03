@@ -19,6 +19,7 @@ import com.akexorcist.googledirection.model.Route;
 import com.example.android.capstone.R;
 import com.example.android.capstone.util.Utils;
 import com.example.android.firebase.domain.OrdersDomain;
+import com.example.android.firebase.entity.OrderEntityHelper;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
             //order deliver start time
             mOrdersDomain.setOrderStartDeliverTime(new Date().getTime());
 
-            intent.putExtra(OrdersDomain.DOMAIN_NAME,mOrdersDomain);
+            intent.putExtra(OrderEntityHelper.DOMAIN_NAME,mOrdersDomain);
             mActivity.startActivity(intent);
             mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
@@ -107,7 +108,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
         final OrdersDomain ordersDomain = mOrdersDomains.get(position);
 
         holder.mOrderName.setText(ordersDomain.getName());
-        holder.mOrderImageBase64.setImageBitmap(Utils.convertImageToBase64(ordersDomain.getImageBase64()));
+        holder.mOrderImageBase64.setImageBitmap(Utils.convertBase64ToImage(ordersDomain.getImageBase64()));
         holder.mOrdersDomain = ordersDomain;
 
         Location myLocation = Utils.getLastKnownLocation(mActivity);

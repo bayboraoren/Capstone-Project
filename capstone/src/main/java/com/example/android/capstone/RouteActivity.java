@@ -21,7 +21,8 @@ import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.example.android.capstone.util.Utils;
 import com.example.android.firebase.FirebaseUtil;
-import com.example.android.firebase.domain.OrdersDomain;
+import com.example.android.firebase.entity.OrderEntity;
+import com.example.android.firebase.entity.OrderEntityHelper;
 import com.firebase.client.Firebase;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -87,19 +88,19 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         initBindView();
         mActivity = this;
 
-        final OrdersDomain ordersDomain = getIntent().getExtras().getParcelable(OrdersDomain.DOMAIN_NAME);
+        final OrderEntity orderEntity = getIntent().getExtras().getParcelable(OrderEntityHelper.DOMAIN_NAME);
 
-        orderImageBase64.setImageBitmap(Utils.convertImageToBase64(ordersDomain.getImageBase64()));
-        orderName.setText(ordersDomain.getName());
-        customerName.setText("to " + ordersDomain.getCustomer());
-        orderDistanceKM.setText(ordersDomain.getDistanceKM());
+        orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(orderEntity.getImageBase64()));
+        orderName.setText(orderEntity.getName());
+        customerName.setText("to " + orderEntity.getCustomer());
+        orderDistanceKM.setText(orderEntity.getDistanceKM());
 
         //delivered button
         delivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, com.example.android.capstone.ResultActivity.class);
-                intent.putExtra(OrdersDomain.DOMAIN_NAME,ordersDomain);
+                intent.putExtra(OrderEntityHelper.DOMAIN_NAME,orderEntity);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
@@ -115,7 +116,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
                 mGoogleMap = googleMap;
                 Location myLocation = Utils.getLastKnownLocation(mActivity);
                 myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-                toLatLng = new LatLng(Double.parseDouble(ordersDomain.getLatitude()), Double.parseDouble(ordersDomain.getLongitude()));
+                toLatLng = new LatLng(Double.parseDouble(orderEntity.getLocationEntity().getLatitude()), Double.parseDouble(orderEntity.getLocationEntity().getLongitude()));
 
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 14));
 
