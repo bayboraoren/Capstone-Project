@@ -92,7 +92,6 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
             @Override
             public void onMapReady(final GoogleMap googleMap) {
                 mGoogleMap = googleMap;
-
                 Location myLocation = Utils.getLastKnownLocation(mActivity);
                 myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
                 toLatLng = new LatLng(Double.parseDouble(ordersDomain.getLatitude()), Double.parseDouble(ordersDomain.getLongitude()));
@@ -137,6 +136,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
                         ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
                         mGoogleMap.addPolyline(DirectionConverter.createPolyline(mActivity, directionPositionList, 5, ContextCompat.getColor(mActivity,R.color.colorPrimaryTransparent)));
+                        mGoogleMap.setMyLocationEnabled(true);
 
                     }
 
