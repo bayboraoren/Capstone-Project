@@ -15,6 +15,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 
 /**
@@ -33,6 +36,10 @@ public class ResultActivity extends com.example.android.capstone.BaseActivity{
 
     @Bind(R.id.order_distance_km)
     TextView orderDistanceKM;
+
+    @Bind(R.id.order_start_deliver_time)
+    TextView orderStartDeliverTime;
+
 
     private GoogleMap mGoogleMap;
     private ResultActivity mActivity;
@@ -57,6 +64,17 @@ public class ResultActivity extends com.example.android.capstone.BaseActivity{
         orderName.setText(ordersDomain.getName());
         customerName.setText("to " + ordersDomain.getCustomer());
         orderDistanceKM.setText(ordersDomain.getDistanceKM());
+
+
+        //for calculate deliver time
+        long diffInMillisec = new Date().getTime() - ordersDomain.getOrderStartDeliverTime();
+        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec);
+        diffInSec/= 60;
+        long minutes =diffInSec % 60;
+        StringBuilder deliverTimeText = new StringBuilder();
+        deliverTimeText.append(getResources().getString(R.string.in)).append(" ").append(minutes).append(" ").append(getResources().getString(R.string.minutes));
+        orderStartDeliverTime.setText(deliverTimeText.toString());
+
 
         //about map
         SupportMapFragment routeMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.route_map);

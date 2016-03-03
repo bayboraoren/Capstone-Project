@@ -22,6 +22,7 @@ import com.example.android.firebase.domain.OrdersDomain;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,8 +59,12 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
         @Override
         public void onClick(View view) {
 
-            Log.i(LOG_TAG, "");
+            Log.i(LOG_TAG, mOrdersDomain.getName() + " order clicked...");
             Intent intent = new Intent(mActivity, com.example.android.capstone.RouteActivity.class);
+
+            //order deliver start time
+            mOrdersDomain.setOrderStartDeliverTime(new Date().getTime());
+
             intent.putExtra(OrdersDomain.DOMAIN_NAME,mOrdersDomain);
             mActivity.startActivity(intent);
             mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);

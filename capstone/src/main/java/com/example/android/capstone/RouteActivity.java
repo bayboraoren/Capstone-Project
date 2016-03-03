@@ -88,6 +88,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         mActivity = this;
 
         final OrdersDomain ordersDomain = getIntent().getExtras().getParcelable(OrdersDomain.DOMAIN_NAME);
+
         orderImageBase64.setImageBitmap(Utils.convertImageToBase64(ordersDomain.getImageBase64()));
         orderName.setText(ordersDomain.getName());
         customerName.setText("to " + ordersDomain.getCustomer());

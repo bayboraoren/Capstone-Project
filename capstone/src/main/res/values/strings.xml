@@ -41,6 +41,8 @@
 
     <!-- Result Activity -->
     <string name="delivery_completed">Delivery Completed</string>
+    <string name="in">in</string>
+    <string name="minutes">minutes</string>
 
     <!-- Other -->
     <string name="what">\???</string>
