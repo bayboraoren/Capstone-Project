@@ -3,7 +3,6 @@ package com.example.android.capstone.components.orders;
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +31,6 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
 
     public static final String LOG_TAG = OrdersRecyclerAdapter.class.getSimpleName();
     public Activity mActivity;
-    public FragmentActivity supportedFragmentManager;
     public List<OrdersDomain> mOrdersDomains=new ArrayList<>();
 
 

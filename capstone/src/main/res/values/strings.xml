@@ -4,6 +4,7 @@
     <string name="title_activity_register">Register Screen</string>
     <string name="title_activity_orders">Orders Screen</string>
     <string name="title_activity_route">Route Screen</string>
+    <string name="title_activity_result">Result Screen</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -38,7 +39,12 @@
     <!-- Route Activity -->
     <string name="is_delivered">Delivered ?</string>
 
+    <!-- Result Activity -->
+    <string name="delivery_completed">Delivery Completed</string>
+
     <!-- Other -->
     <string name="what">\???</string>
+
+
 
 </resources>

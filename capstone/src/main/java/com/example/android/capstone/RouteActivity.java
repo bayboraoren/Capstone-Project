@@ -1,11 +1,14 @@
 package com.example.android.capstone;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +53,9 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
     @Bind(R.id.order_distance_km)
     TextView orderDistanceKM;
 
+    @Bind(R.id.delivered)
+    Button delivered;
+
     private RouteActivity mActivity;
 
 
@@ -87,6 +93,20 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         customerName.setText("to " + ordersDomain.getCustomer());
         orderDistanceKM.setText(ordersDomain.getDistanceKM());
 
+        //delivered button
+        delivered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, com.example.android.capstone.ResultActivity.class);
+                intent.putExtra(OrdersDomain.DOMAIN_NAME,ordersDomain);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            }
+        });
+
+
+
+        //about map
         SupportMapFragment routeMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.route_map);
         routeMap.getMapAsync(new OnMapReadyCallback() {
             @Override
