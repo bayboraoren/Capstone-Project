@@ -2,6 +2,8 @@ package com.example.android.capstone.components.orders;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Route;
 import com.example.android.capstone.R;
 import com.example.android.capstone.util.Utils;
 import com.example.android.firebase.domain.OrdersDomain;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +32,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
 
     public static final String LOG_TAG = OrdersRecyclerAdapter.class.getSimpleName();
     public Activity mActivity;
+    public FragmentActivity supportedFragmentManager;
     public List<OrdersDomain> mOrdersDomains=new ArrayList<>();
 
 
@@ -88,17 +97,56 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        OrdersDomain ordersDomain = mOrdersDomains.get(position);
+        final OrdersDomain ordersDomain = mOrdersDomains.get(position);
 
-        holder.mOrderDistanceKM.setText("");
         holder.mOrderName.setText(ordersDomain.getName());
         holder.mOrderImageBase64.setImageBitmap(Utils.convertImageToBase64(ordersDomain.getImageBase64()));
         holder.mOrdersDomain = ordersDomain;
 
+        Location myLocation = Utils.getLastKnownLocation(mActivity);
+
+        LatLng myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+        LatLng toLatLng = new LatLng(Double.parseDouble(ordersDomain.getLatitude()), Double.parseDouble(ordersDomain.getLongitude()));
+
+        GoogleDirection.withServerKey(mActivity.getResources().getString(R.string.google_maps_direction_key))
+                .from(myLatLng)
+                .to(toLatLng)
+                .transportMode(TransportMode.WALKING)
+                        //.avoid(AvoidType.FERRIES)
+                        //.avoid(AvoidType.HIGHWAYS)
+                .execute(new DirectionCallback() {
+                    @Override
+                    public void onDirectionSuccess(Direction direction) {
+
+                        List<Route> routes = direction.getRouteList();
+                        if(routes.size()>0) {
+
+                            Route route = routes.get(0);
+                            if (route != null) {
+                                String distanceKM = route.getLegList().get(0).getDistance().getText();
+                                holder.mOrderDistanceKM.setText(distanceKM);
+                                ordersDomain.setDistanceKM(distanceKM);
+                            } else {
+                                String what = mActivity.getResources().getString(R.string.what);
+                                holder.mOrderDistanceKM.setText(what);
+                                ordersDomain.setDistanceKM(what);
+                            }
+
+                            mOrdersDomains.set(position,ordersDomain);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onDirectionFailure(Throwable t) {
+
+                    }
+                });
 
     }
 
@@ -107,5 +155,8 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter<OrdersRecyclerAd
     public int getItemCount() {
         return mOrdersDomains.size();
     }
+
+
+
 }
 

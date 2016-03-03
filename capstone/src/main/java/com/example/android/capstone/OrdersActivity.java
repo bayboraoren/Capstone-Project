@@ -22,7 +22,7 @@ import butterknife.Bind;
 /**
  * Created by baybora on 3/2/16.
  */
-public class OrdersActivity extends com.example.android.capstone.BaseActivity {
+public class OrdersActivity extends com.example.android.capstone.BaseActivity{
 
     private RecyclerView mRecyclerView;
     private OrdersRecyclerAdapter mOrdersAdapter;
@@ -138,5 +138,6 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity {
         FirebaseUtil.getOrders(childEventListener);
 
     }
+
 
 }

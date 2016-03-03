@@ -38,4 +38,7 @@
     <!-- Route Activity -->
     <string name="is_delivered">Delivered ?</string>
 
+    <!-- Other -->
+    <string name="what">\???</string>
+
 </resources>

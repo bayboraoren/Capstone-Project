@@ -85,7 +85,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         orderImageBase64.setImageBitmap(Utils.convertImageToBase64(ordersDomain.getImageBase64()));
         orderName.setText(ordersDomain.getName());
         customerName.setText("to " + ordersDomain.getCustomer());
-        orderDistanceKM.setText("");
+        orderDistanceKM.setText(ordersDomain.getDistanceKM());
 
         SupportMapFragment routeMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.route_map);
         routeMap.getMapAsync(new OnMapReadyCallback() {
