@@ -52,6 +52,7 @@ public class FirebaseUtil {
         return driversDomain;
     }
 
+
     public static OrdersDomain convertToOrdersDomainList(DataSnapshot dataSnapshot){
 
         HashMap hashMap = ((HashMap)dataSnapshot.getValue());

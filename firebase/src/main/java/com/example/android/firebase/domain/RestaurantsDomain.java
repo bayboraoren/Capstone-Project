@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class RestaurantsDomain extends LocationDomain {
 
+
     public static final String NAME="name";
 
     private String name;

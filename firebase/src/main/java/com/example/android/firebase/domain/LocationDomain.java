@@ -31,6 +31,9 @@ public class LocationDomain implements Parcelable {
     }
 
 
+    public LocationDomain() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -42,21 +45,9 @@ public class LocationDomain implements Parcelable {
         dest.writeString(this.latitude);
     }
 
-    public LocationDomain() {
-    }
-
     protected LocationDomain(Parcel in) {
         this.longitude = in.readString();
         this.latitude = in.readString();
     }
 
-    public static final Parcelable.Creator<LocationDomain> CREATOR = new Parcelable.Creator<LocationDomain>() {
-        public LocationDomain createFromParcel(Parcel source) {
-            return new LocationDomain(source);
-        }
-
-        public LocationDomain[] newArray(int size) {
-            return new LocationDomain[size];
-        }
-    };
 }

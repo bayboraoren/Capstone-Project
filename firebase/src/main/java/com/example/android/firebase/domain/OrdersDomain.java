@@ -1,13 +1,15 @@
 package com.example.android.firebase.domain;
 
-import java.util.ArrayList;
+import android.os.Parcel;
+
 import java.util.List;
 
 /**
  * Created by baybora on 3/2/16.
  */
-public class OrdersDomain extends LocationDomain implements android.os.Parcelable {
+public class OrdersDomain extends LocationDomain {
 
+    public static final String DOMAIN_NAME = "ordersDomain";
     public static final String NAME="name";
     public static final String CUSTOMER="customer";
     public static final String IMAGE_BASE_64="imagebase64";
@@ -50,32 +52,33 @@ public class OrdersDomain extends LocationDomain implements android.os.Parcelabl
         this.driversDomains = driversDomains;
     }
 
+    public OrdersDomain() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(android.os.Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeString(this.name);
         dest.writeString(this.customer);
         dest.writeString(this.imageBase64);
-        dest.writeList(this.driversDomains);
+        dest.writeTypedList(driversDomains);
     }
 
-    public OrdersDomain() {
-    }
-
-    protected OrdersDomain(android.os.Parcel in) {
+    protected OrdersDomain(Parcel in) {
+        super(in);
         this.name = in.readString();
         this.customer = in.readString();
         this.imageBase64 = in.readString();
-        this.driversDomains = new ArrayList<DriversDomain>();
-        in.readList(this.driversDomains, List.class.getClassLoader());
+        this.driversDomains = in.createTypedArrayList(DriversDomain.CREATOR);
     }
 
-    public static final android.os.Parcelable.Creator<OrdersDomain> CREATOR = new android.os.Parcelable.Creator<OrdersDomain>() {
-        public OrdersDomain createFromParcel(android.os.Parcel source) {
+    public static final Creator<OrdersDomain> CREATOR = new Creator<OrdersDomain>() {
+        public OrdersDomain createFromParcel(Parcel source) {
             return new OrdersDomain(source);
         }
 

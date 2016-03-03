@@ -69,6 +69,10 @@ public class DriversDomain extends LocationDomain {
         this.restaurantsDomain = restaurantsDomain;
     }
 
+
+    public DriversDomain() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -83,9 +87,6 @@ public class DriversDomain extends LocationDomain {
         dest.writeString(this.imageBase64);
         dest.writeTypedList(ordersDomain);
         dest.writeParcelable(this.restaurantsDomain, 0);
-    }
-
-    public DriversDomain() {
     }
 
     protected DriversDomain(Parcel in) {
