@@ -1,7 +1,10 @@
 package com.example.android.capstone;
 
 import android.app.LoaderManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 
 import com.activeandroid.content.ContentProvider;
 import com.example.android.capstone.components.orders.OrdersSearchResultsCursorAdapter;
+import com.example.android.capstone.components.widget.DeliveryRouteAppWidgetProvider;
+import com.example.android.capstone.components.widget.DeliveryRouteAppWidgetService;
 import com.example.android.capstone.util.Utils;
 import com.example.android.firebase.FirebaseUtil;
 import com.example.android.firebase.domain.DriversDomain;
@@ -122,6 +127,18 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 FirebaseUtil.saveOrderEntity(dataSnapshot);
+
+                //update widget
+                Intent intent = new Intent(getApplicationContext(),
+                        DeliveryRouteAppWidgetService.class);
+
+                int[] allWidgetIds = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DeliveryRouteAppWidgetProvider.class));
+
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+
+                // Update the widgets via the service
+                startService(intent);
+
 
             }
 
