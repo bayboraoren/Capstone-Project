@@ -86,6 +86,7 @@
         </activity-->
 
         <service android:name=".components.widget.DeliveryRouteAppWidgetService"></service>
+        <service android:name=".components.location.DeliveryRouteLocationService"></service>
 
     </application>
 

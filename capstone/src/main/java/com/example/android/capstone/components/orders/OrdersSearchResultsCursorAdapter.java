@@ -63,11 +63,11 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
 
     @Override
     public void onBindViewHolder(final SearchResultViewHolder holder, final Cursor cursor) {
-        holder.bindData(cursor,mActivity);
+        holder.bindData(cursor, mActivity);
         setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClicked(Cursor cursor) {
-                Log.i("","");
+                Log.i("", "");
             }
         });
     }
@@ -86,8 +86,8 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
                 final Cursor cursor = this.getItem(position);
                 this.onItemClickListener.onItemClicked(cursor);
 
-                OrderEntity orderEntity = convertToOrderEntity(cursor);
-                Log.i(LOG_TAG, orderEntity.getName() + " order clicked...");
+                OrderEntity orderEntity = OrderEntityHelper.convertToOrderEntity(cursor);
+                Log.i(LOG_TAG, orderEntity.getName() + mActivity.getResources().getString(R.string.order_clicked));
                 Intent intent = new Intent(mActivity, com.example.android.capstone.RouteActivity.class);
 
                 //order deliver start time
@@ -116,80 +116,71 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
         }
 
         public void bindData(final Cursor cursor, final Activity mActivity) {
-            this.orderName.setText(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.NAME)));
-            this.orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.IMAGE_BASE_64))));
-            this.orderDistanceKM.setText(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.DISTANCE_KM)));
+
+            final OrderEntity orderEntity = OrderEntityHelper.convertToOrderEntity(cursor);
+
+            this.orderName.setText(orderEntity.getName());
+            this.orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(orderEntity.getImageBase64()));
+            this.orderDistanceKM.setText(orderEntity.getDistanceKM());
 
 
-            Location myLocation = Utils.getLastKnownLocation(mActivity);
+            if (orderEntity.getLocationEntity() != null) {
+                orderDistanceKM.setText(orderEntity.getDistanceKM());
+            } else {
 
-            long locationEntityId = cursor.getLong(cursor.getColumnIndex(OrderEntityHelper.LOCATION));
-            LocationEntity locationEntity = LocationEntity.load(LocationEntity.class, locationEntityId);
+                Location myLocation = Utils.getLastKnownLocation(mActivity);
+
+                long locationEntityId = cursor.getLong(cursor.getColumnIndex(OrderEntityHelper.LOCATION));
+                LocationEntity locationEntity = LocationEntity.load(LocationEntity.class, locationEntityId);
+
+                LatLng myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+                LatLng toLatLng = new LatLng(Double.parseDouble(locationEntity.getLatitude()), Double.parseDouble(locationEntity.getLongitude()));
+
+                GoogleDirection.withServerKey(mActivity.getResources().getString(R.string.google_maps_direction_key))
+                        .from(myLatLng)
+                        .to(toLatLng)
+                        .transportMode(TransportMode.DRIVING)
+                        .execute(new DirectionCallback() {
+                            @Override
+                            public void onDirectionSuccess(Direction direction) {
+
+                                List<Route> routes = direction.getRouteList();
+                                if (routes.size() > 0) {
+
+                                    Route route = routes.get(0);
+
+                                    if (route != null) {
+
+                                        String distanceKM = route.getLegList().get(0).getDistance().getText();
+                                        orderDistanceKM.setText(distanceKM);
+
+                                    } else {
+
+                                        String what = mActivity.getResources().getString(R.string.what);
+                                        orderDistanceKM.setText(what);
+
+                                    }
 
 
-
-            LatLng myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-            LatLng toLatLng = new LatLng(Double.parseDouble(locationEntity.getLatitude()), Double.parseDouble(locationEntity.getLongitude()));
-
-            GoogleDirection.withServerKey(mActivity.getResources().getString(R.string.google_maps_direction_key))
-                    .from(myLatLng)
-                    .to(toLatLng)
-                    .transportMode(TransportMode.WALKING)
-                            //.avoid(AvoidType.FERRIES)
-                            //.avoid(AvoidType.HIGHWAYS)
-                    .execute(new DirectionCallback() {
-                        @Override
-                        public void onDirectionSuccess(Direction direction) {
-
-                            List<Route> routes = direction.getRouteList();
-                            if (routes.size() > 0) {
-
-                                Route route = routes.get(0);
-                                if (route != null) {
-                                    String distanceKM = route.getLegList().get(0).getDistance().getText();
-                                    orderDistanceKM.setText(distanceKM);
-                                    //ordersDomain.setDistanceKM(distanceKM);
-                                } else {
-                                    String what = mActivity.getResources().getString(R.string.what);
-                                    orderDistanceKM.setText(what);
-                                    //ordersDomain.setDistanceKM(what);
                                 }
-
-                                //TODO distance' i yaz
-                                //mOrdersDomains.set(position, ordersDomain);
 
                             }
 
-                        }
+                            @Override
+                            public void onDirectionFailure(Throwable t) {
 
-                        @Override
-                        public void onDirectionFailure(Throwable t) {
-
-                        }
-                    });
+                            }
+                        });
 
 
-
+            }
         }
     }
+
 
     public interface OnItemClickListener {
         void onItemClicked(Cursor cursor);
     }
 
-    private OrderEntity convertToOrderEntity(Cursor cursor){
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setName(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.NAME)));
-        orderEntity.setImageBase64(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.IMAGE_BASE_64)));
-        orderEntity.setDistanceKM(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.DISTANCE_KM)));
-        orderEntity.setCustomer(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.CUSTOMER)));
-
-        //location entity
-        long locationEntityId = cursor.getLong(cursor.getColumnIndex(OrderEntityHelper.LOCATION));
-        LocationEntity locationEntity = LocationEntity.load(LocationEntity.class, locationEntityId);
-        orderEntity.setLocationEntity(locationEntity);
-
-        return orderEntity;
-    }
 
 }

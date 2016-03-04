@@ -3,6 +3,7 @@ package com.example.android.capstone.util;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -12,6 +13,9 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import com.example.android.capstone.R;
+import com.example.android.firebase.entity.LocationEntity;
+import com.example.android.firebase.entity.OrderEntity;
+import com.example.android.firebase.entity.OrderEntityHelper;
 
 import java.util.List;
 
@@ -68,5 +72,21 @@ public class Utils {
         return bestLocation;
     }
 
+
+    private static OrderEntity convertToOrderEntity(Cursor cursor){
+
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setName(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.NAME)));
+        orderEntity.setImageBase64(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.IMAGE_BASE_64)));
+        orderEntity.setDistanceKM(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.DISTANCE_KM)));
+        orderEntity.setCustomer(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.CUSTOMER)));
+
+        //location entity
+        long locationEntityId = cursor.getLong(cursor.getColumnIndex(OrderEntityHelper.LOCATION));
+        LocationEntity locationEntity = LocationEntity.load(LocationEntity.class, locationEntityId);
+        orderEntity.setLocationEntity(locationEntity);
+
+        return orderEntity;
+    }
 
 }

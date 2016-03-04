@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.content.ContentProvider;
+import com.example.android.capstone.components.location.DeliveryRouteLocationService;
 import com.example.android.capstone.components.orders.OrdersSearchResultsCursorAdapter;
 import com.example.android.capstone.components.widget.DeliveryRouteAppWidgetProvider;
 import com.example.android.capstone.components.widget.DeliveryRouteAppWidgetService;
@@ -66,6 +67,7 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
         setNameForUI();
         setDateForUI();
         initOrdersRecyclerView();
+        initLocationService();
     }
 
 
@@ -127,18 +129,7 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 FirebaseUtil.saveOrderEntity(dataSnapshot);
-
-                //update widget
-                Intent intent = new Intent(getApplicationContext(),
-                        DeliveryRouteAppWidgetService.class);
-
-                int[] allWidgetIds = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DeliveryRouteAppWidgetProvider.class));
-
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
-
-                // Update the widgets via the service
-                startService(intent);
-
+                //updateWidget();
 
             }
 
@@ -164,6 +155,24 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
         };
 
         FirebaseUtil.getOrders(childEventListener);
+
+    }
+
+    private void updateWidget(){
+
+        Intent intent = new Intent(getApplicationContext(),
+                            DeliveryRouteAppWidgetService.class);
+
+        int[] allWidgetIds = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DeliveryRouteAppWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+        startService(intent);
+    }
+
+    private void initLocationService(){
+
+        Intent intent = new Intent(getApplicationContext(),
+                DeliveryRouteLocationService.class);
+        startService(intent);
 
     }
 

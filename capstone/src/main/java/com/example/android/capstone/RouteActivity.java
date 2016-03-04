@@ -1,6 +1,10 @@
 package com.example.android.capstone;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.activeandroid.content.ContentProvider;
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.TransportMode;
@@ -36,7 +41,9 @@ import butterknife.Bind;
 /**
  * Created by baybora on 3/2/16.
  */
-public class RouteActivity extends com.example.android.capstone.BaseActivity implements DirectionCallback {
+public class RouteActivity extends com.example.android.capstone.BaseActivity implements DirectionCallback,LoaderManager.LoaderCallbacks<Cursor>{
+
+    private static final int LOADER_SEARCH_RESULTS = 1;
 
     @Bind(R.id.order_imagebase64)
     ImageView orderImageBase64;
@@ -55,6 +62,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     private RouteActivity mActivity;
 
+    private OrderEntity orderEntity;
 
     //map
     private GoogleMap mGoogleMap;
@@ -71,6 +79,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         super.onCreate(savedInstanceState);
         initFireBase();
         initRouteActivity();
+
     }
 
 
@@ -84,12 +93,16 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         initBindView();
         mActivity = this;
 
-        final OrderEntity orderEntity = getIntent().getExtras().getParcelable(OrderEntityHelper.DOMAIN_NAME);
+        orderEntity = getIntent().getExtras().getParcelable(OrderEntityHelper.DOMAIN_NAME);
 
         orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(orderEntity.getImageBase64()));
         orderName.setText(orderEntity.getName());
         customerName.setText("to " + orderEntity.getCustomer());
         orderDistanceKM.setText(orderEntity.getDistanceKM());
+
+        //init loader
+        this.getLoaderManager().restartLoader(LOADER_SEARCH_RESULTS, null, this);
+
 
         //delivered button
         delivered.setOnClickListener(new View.OnClickListener() {
@@ -143,11 +156,12 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
                     BitmapDescriptor toMarkerIcon = BitmapDescriptorFactory.fromResource(R.drawable.marker_customer_2);
                     mGoogleMap.addMarker(new MarkerOptions().position(toLatLng).icon(toMarkerIcon));
 
+                    setDistance(orderEntity.getDistanceKM());
 
                     for (int i = 0; i < direction.getRouteList().size(); i++) {
 
                         Route route = direction.getRouteList().get(i);
-                        setDistance(route);
+
 
 
                         ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
@@ -173,8 +187,41 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     }
 
-    private void setDistance(Route route){
-        String distance = route.getLegList().get(0).getDistance().getText();
-        orderDistanceKM.setText(distance);
+    private void setDistance(String distanceKM){
+        orderDistanceKM.setText(distanceKM);
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, Bundle bundle) {
+
+        switch (id) {
+            case LOADER_SEARCH_RESULTS:
+
+                return new CursorLoader(RouteActivity.this,
+                        ContentProvider.createUri(OrderEntity.class, null),
+                        null, null, null, null
+                );
+        }
+
+        return null;
+
+    }
+
+    @Override
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
+        switch (loader.getId()) {
+            case LOADER_SEARCH_RESULTS:
+
+                cursor.moveToFirst();
+                OrderEntity orderEntity = OrderEntityHelper.convertToOrderEntity(cursor);
+                orderDistanceKM.setText(orderEntity.getDistanceKM());
+                break;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+
     }
 }
