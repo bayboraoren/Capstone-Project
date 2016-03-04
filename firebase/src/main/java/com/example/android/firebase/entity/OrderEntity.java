@@ -27,6 +27,11 @@ public class OrderEntity extends Model implements Parcelable {
     @Column(name="location")
     private LocationEntity locationEntity;
 
+    /**like dto not depends on table
+     * it is used for selected Order for ui
+    */
+    private long _id;
+
     private transient long orderStartDeliverTime;
 
     public String getName() {
@@ -69,6 +74,14 @@ public class OrderEntity extends Model implements Parcelable {
         this.locationEntity = locationEntity;
     }
 
+    public long get_id() {
+        return _id;
+    }
+
+    public void set_id(long _id) {
+        this._id = _id;
+    }
+
     public List<DriverEntity> drivers(){
         return getMany(DriverEntity.class,"OrderEntity");
     }
@@ -94,6 +107,7 @@ public class OrderEntity extends Model implements Parcelable {
         dest.writeString(this.distanceKM);
         dest.writeParcelable(this.locationEntity, flags);
         dest.writeLong(this.orderStartDeliverTime);
+        dest.writeLong(this._id);
     }
 
     public OrderEntity() {
@@ -106,6 +120,7 @@ public class OrderEntity extends Model implements Parcelable {
         this.distanceKM = in.readString();
         this.locationEntity = in.readParcelable(LocationEntity.class.getClassLoader());
         this.orderStartDeliverTime = in.readLong();
+        this._id = in.readLong();
     }
 
     public static final Parcelable.Creator<OrderEntity> CREATOR = new Parcelable.Creator<OrderEntity>() {
