@@ -18,18 +18,18 @@ import android.widget.ImageView;
 /**
  * Created by baybora on 3/2/16.
  */
-public class DriverRoundedImage extends ImageView {
+public class OrderRoundedImage extends ImageView {
 
-    public DriverRoundedImage(Context context) {
+    public OrderRoundedImage(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
     }
 
-    public DriverRoundedImage(Context context, AttributeSet attrs) {
+    public OrderRoundedImage(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DriverRoundedImage(Context context, AttributeSet attrs, int defStyle) {
+    public OrderRoundedImage(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -94,4 +94,5 @@ public class DriverRoundedImage extends ImageView {
 
         return output;
     }
+
 }

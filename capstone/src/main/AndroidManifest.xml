@@ -79,11 +79,6 @@
                 android:resource="@xml/delivery_route_appwidget_info" />
         </receiver>
 
-        <!--activity android:name=".components.widget.DeliveryRouteAppWidgetConfigure">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
-            </intent-filter>
-        </activity-->
 
         <service android:name=".components.widget.DeliveryRouteAppWidgetService"></service>
         <service android:name=".components.location.DeliveryRouteLocationService"></service>

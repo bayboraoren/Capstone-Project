@@ -37,7 +37,7 @@
             android:layout_weight="3"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.example.android.capstone.components.driver.DriverRoundedImage
+            <com.example.android.capstone.components.driver.OrderRoundedImage
                 android:id="@+id/order_imagebase64"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -58,7 +58,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="ISIM"
                     android:textSize="16dp"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
@@ -68,7 +67,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="CUSTOMER"
                     android:textSize="16dp"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
@@ -78,7 +76,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="DELIVER TIME"
                     android:textSize="16dp"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
@@ -93,7 +90,6 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="KM"
                 android:textSize="16dp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />

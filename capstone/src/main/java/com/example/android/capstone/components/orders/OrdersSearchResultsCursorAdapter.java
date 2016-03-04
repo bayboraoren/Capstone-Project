@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,7 +83,9 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
 
             final RecyclerView recyclerView = (RecyclerView) view.getParent();
             final int position = recyclerView.getChildLayoutPosition(view);
+
             if (position != RecyclerView.NO_POSITION) {
+
                 final Cursor cursor = this.getItem(position);
                 this.onItemClickListener.onItemClicked(cursor);
 
@@ -90,11 +93,19 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
                 Log.i(LOG_TAG, orderEntity.getName() + mActivity.getResources().getString(R.string.order_clicked));
                 Intent intent = new Intent(mActivity, com.example.android.capstone.RouteActivity.class);
 
+                //set selected order
+                OrderEntityHelper.setSelectedOrder(orderEntity);
+
+                //update widget
+                Utils.updateWidget(mActivity);
+
                 //order deliver start time
                 orderEntity.setOrderStartDeliverTime(new Date().getTime());
                 intent.putExtra(OrderEntityHelper.DOMAIN_NAME, orderEntity);
                 mActivity.startActivity(intent);
                 mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+
             }
         }
     }
@@ -110,8 +121,11 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
         @Bind(R.id.order_distance_km)
         TextView orderDistanceKM;
 
+        private View mItemView;
+
         public SearchResultViewHolder(final View itemView) {
             super(itemView);
+            mItemView = itemView;
             ButterKnife.bind(this, itemView);
         }
 
@@ -122,6 +136,13 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
             this.orderName.setText(orderEntity.getName());
             this.orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(orderEntity.getImageBase64()));
             this.orderDistanceKM.setText(orderEntity.getDistanceKM());
+
+            //when order selected change background color
+            if(null!=OrderEntityHelper.getSelectedOrder() && orderEntity.get_id()==OrderEntityHelper.getSelectedOrder().get_id()) {
+                this.mItemView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.order_item_background_selected));
+            }else{
+                this.mItemView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.order_item_background));
+            }
 
 
             if (orderEntity.getLocationEntity() != null) {

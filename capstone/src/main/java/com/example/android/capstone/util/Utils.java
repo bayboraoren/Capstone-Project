@@ -1,9 +1,11 @@
 package com.example.android.capstone.util;
 
 import android.Manifest;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -13,9 +15,7 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import com.example.android.capstone.R;
-import com.example.android.firebase.entity.LocationEntity;
-import com.example.android.firebase.entity.OrderEntity;
-import com.example.android.firebase.entity.OrderEntityHelper;
+import com.example.android.capstone.components.widget.DeliveryRouteAppWidgetProvider;
 
 import java.util.List;
 
@@ -73,20 +73,20 @@ public class Utils {
     }
 
 
-    private static OrderEntity convertToOrderEntity(Cursor cursor){
-
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setName(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.NAME)));
-        orderEntity.setImageBase64(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.IMAGE_BASE_64)));
-        orderEntity.setDistanceKM(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.DISTANCE_KM)));
-        orderEntity.setCustomer(cursor.getString(cursor.getColumnIndex(OrderEntityHelper.CUSTOMER)));
-
-        //location entity
-        long locationEntityId = cursor.getLong(cursor.getColumnIndex(OrderEntityHelper.LOCATION));
-        LocationEntity locationEntity = LocationEntity.load(LocationEntity.class, locationEntityId);
-        orderEntity.setLocationEntity(locationEntity);
-
-        return orderEntity;
+    public static void updateWidget(Context context) {
+        Intent intent = new Intent(context, DeliveryRouteAppWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, DeliveryRouteAppWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
+
+    public static Bitmap convertDrawabletoBitmap(Context context, int drawable){
+        return BitmapFactory.decodeResource(context.getResources(),
+                drawable);
+    }
+
+
+
 
 }

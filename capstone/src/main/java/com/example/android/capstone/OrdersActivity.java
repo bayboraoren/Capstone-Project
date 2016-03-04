@@ -129,7 +129,6 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 FirebaseUtil.saveOrderEntity(dataSnapshot);
-                //updateWidget();
 
             }
 

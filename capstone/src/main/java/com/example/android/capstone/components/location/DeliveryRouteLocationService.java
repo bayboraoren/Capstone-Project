@@ -20,6 +20,7 @@ import com.akexorcist.googledirection.model.Route;
 import com.example.android.capstone.R;
 import com.example.android.capstone.util.Utils;
 import com.example.android.firebase.entity.OrderEntity;
+import com.example.android.firebase.entity.OrderEntityHelper;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -157,17 +158,16 @@ public class DeliveryRouteLocationService extends Service {
 
                 previousBestLocation = loc;
 
-                location(loc);
+                updateLocation(loc);
 
                 sendBroadcast(intent);
-
 
 
             }
         }
 
 
-        private void location(Location myLocation) {
+        private void updateLocation(Location myLocation) {
 
             List<OrderEntity> orderEntities = new Select().from(OrderEntity.class).execute();
 
@@ -205,6 +205,18 @@ public class DeliveryRouteLocationService extends Service {
 
                                     orderEntity.save();
 
+                                    //Distance KM changed
+                                    OrderEntity selectedOrderEntity = OrderEntityHelper.getSelectedOrder();
+
+                                    if(null!=selectedOrderEntity && selectedOrderEntity.get_id()==orderEntity.getId()) {
+
+                                        OrderEntityHelper.updateSelectedOrderDistanceKM(orderEntity.getDistanceKM());
+                                        Utils.updateWidget(getBaseContext());
+
+                                    }
+
+
+
                                 }
 
                             }
@@ -218,6 +230,7 @@ public class DeliveryRouteLocationService extends Service {
 
             }
         }
+
 
 
         public void onProviderDisabled(String provider) {

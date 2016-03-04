@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
 
@@ -66,9 +67,9 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     //map
     private GoogleMap mGoogleMap;
+    private Polyline mPolyline;
     private LatLng myLatLng;
     private LatLng toLatLng;
-    private String[] colors = {"#7fff7272", "#7f31c7c5", "#7fff8a00"};
 
     public RouteActivity() {
         super(RouteActivity.class.getSimpleName(), "ROUTE");
@@ -115,18 +116,26 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
             }
         });
 
+        updateMap();
 
+    }
 
-        //about map
+    private void updateMap(){
+
         SupportMapFragment routeMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.route_map);
         routeMap.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(final GoogleMap googleMap) {
                 mGoogleMap = googleMap;
-                Location myLocation = Utils.getLastKnownLocation(mActivity);
-                myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-                toLatLng = new LatLng(Double.parseDouble(orderEntity.getLocationEntity().getLatitude()), Double.parseDouble(orderEntity.getLocationEntity().getLongitude()));
 
+                if(orderEntity.getLocationEntity()!=null) {
+                    Location myLocation = Utils.getLastKnownLocation(mActivity);
+                    myLatLng = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
+                }else {
+                    myLatLng = new LatLng(Double.valueOf(orderEntity.getLocationEntity().getLatitude()), Double.valueOf(orderEntity.getLocationEntity().getLongitude()));
+                }
+
+                toLatLng = new LatLng(Double.parseDouble(orderEntity.getLocationEntity().getLatitude()), Double.parseDouble(orderEntity.getLocationEntity().getLongitude()));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 14));
 
                 GoogleDirection.withServerKey(getResources().getString(R.string.google_maps_direction_key))
@@ -138,7 +147,6 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
                         .execute(mActivity);
             }
         });
-
     }
 
     @Override
@@ -156,16 +164,19 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
                     BitmapDescriptor toMarkerIcon = BitmapDescriptorFactory.fromResource(R.drawable.marker_customer_2);
                     mGoogleMap.addMarker(new MarkerOptions().position(toLatLng).icon(toMarkerIcon));
 
-                    setDistance(orderEntity.getDistanceKM());
 
                     for (int i = 0; i < direction.getRouteList().size(); i++) {
 
                         Route route = direction.getRouteList().get(i);
 
-
-
                         ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
-                        mGoogleMap.addPolyline(DirectionConverter.createPolyline(mActivity, directionPositionList, 5, ContextCompat.getColor(mActivity,R.color.colorPrimaryTransparent)));
+
+                        if(mPolyline!=null) {
+                            mPolyline.remove();
+                        }
+
+                        mPolyline = mGoogleMap.addPolyline(DirectionConverter.createPolyline(mActivity, directionPositionList, 5, ContextCompat.getColor(mActivity, R.color.colorPrimaryTransparent)));
+
                         mGoogleMap.setMyLocationEnabled(true);
 
                     }
@@ -187,7 +198,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     }
 
-    private void setDistance(String distanceKM){
+    private void setDistanceKM(String distanceKM){
         orderDistanceKM.setText(distanceKM);
     }
 
@@ -214,8 +225,12 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
             case LOADER_SEARCH_RESULTS:
 
                 cursor.moveToFirst();
-                OrderEntity orderEntity = OrderEntityHelper.convertToOrderEntity(cursor);
-                orderDistanceKM.setText(orderEntity.getDistanceKM());
+                orderEntity = OrderEntityHelper.convertToOrderEntity(cursor);
+
+                setDistanceKM(orderEntity.getDistanceKM());
+
+                updateMap();
+
                 break;
         }
     }
