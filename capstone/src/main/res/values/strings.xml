@@ -46,6 +46,9 @@
 
     <!-- Other -->
     <string name="what">\???</string>
+    
+    <!-- Map -->
+    <string name="map_permission_message">You must give permission to use map</string>
 
 
 

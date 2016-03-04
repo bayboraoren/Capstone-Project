@@ -11,6 +11,8 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
 import android.widget.Toast;
 
+import com.example.android.capstone.R;
+
 import java.util.List;
 
 /**
@@ -18,14 +20,24 @@ import java.util.List;
  */
 public class Utils {
 
-    public static String getString(Context context, int name){
+    public static String getString(Context context, int name) {
         return context.getResources().getString(name);
     }
 
-    public static Bitmap convertBase64ToImage(String imageBase64){
+    public static Bitmap convertBase64ToImage(String imageBase64) {
         byte[] decodedString = Base64.decode(imageBase64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
+    }
+
+    public static boolean checkMapPermission(Context context) {
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(context, context.getResources().getString(R.string.map_permission_message), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public static Location getLastKnownLocation(Context context) {
@@ -35,12 +47,7 @@ public class Utils {
                 context.getSystemService(Context.LOCATION_SERVICE);
 
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            Toast.makeText(context, "Harita kullanmak için telefondan izin vermeniz gerekmektedir.", Toast.LENGTH_SHORT).show();
-
-        } else {
-
+        if (Utils.checkMapPermission(context)) {
 
             List<String> providers = mLocationManager.getProviders(true);
 
@@ -60,7 +67,6 @@ public class Utils {
         }
         return bestLocation;
     }
-
 
 
 }

@@ -1,17 +1,13 @@
 package com.example.android.capstone;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
@@ -135,9 +131,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
     @Override
     public void onDirectionSuccess(final Direction direction) {
 
-        if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getBaseContext(), "Harita kullanmak için telefondan izin vermeniz gerekmektedir.", Toast.LENGTH_SHORT).show();
-        } else {
+        if(Utils.checkMapPermission(mActivity)){
 
             if (direction.isOK()) {
 
