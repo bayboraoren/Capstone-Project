@@ -52,7 +52,7 @@
     <string name="order_clicked">Order Clicked</string>
     
     <!-- Map -->
-    <string name="map_permission_message">You must give permission to use map</string>
+    <string name="map_permission_message">You must enable location</string>
 
 
 

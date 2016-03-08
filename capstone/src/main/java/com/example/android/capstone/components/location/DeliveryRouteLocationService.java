@@ -47,15 +47,19 @@ public class DeliveryRouteLocationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        listener = new MyLocationListener();
+        if (Utils.checkMapPermission(this) && Utils.checkLocationServiceEnabled(this,locationManager)) {
 
-        long minTime = 5 * 1000; // Minimum time interval for update in seconds, i.e. 5 seconds.
-        long minDistance = 10; // Minimum distance change for update in meters, i.e. 10 meters.
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            listener = new MyLocationListener();
+
+            long minTime = 5 * 1000; // Minimum time interval for update in seconds, i.e. 5 seconds.
+            long minDistance = 10; // Minimum distance change for update in meters, i.e. 10 meters.
 
 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, listener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, listener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, listener);
+
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -124,7 +128,10 @@ public class DeliveryRouteLocationService extends Service {
         // handler.removeCallbacks(sendUpdatesToUI);
         super.onDestroy();
         Log.v("STOP_SERVICE", "DONE");
-        locationManager.removeUpdates(listener);
+
+        if(Utils.checkMapPermission(this) && Utils.checkLocationServiceEnabled(this,locationManager)) {
+            locationManager.removeUpdates(listener);
+        }
     }
 
     /*public static Thread performOnBackgroundThread(final Runnable runnable) {
@@ -208,13 +215,12 @@ public class DeliveryRouteLocationService extends Service {
                                     //Distance KM changed
                                     OrderEntity selectedOrderEntity = OrderEntityHelper.getSelectedOrder();
 
-                                    if(null!=selectedOrderEntity && selectedOrderEntity.get_id()==orderEntity.getId()) {
+                                    if (null != selectedOrderEntity && selectedOrderEntity.get_id() == orderEntity.getId()) {
 
                                         OrderEntityHelper.updateSelectedOrderDistanceKM(orderEntity.getDistanceKM());
                                         Utils.updateWidget(getBaseContext());
 
                                     }
-
 
 
                                 }
@@ -230,7 +236,6 @@ public class DeliveryRouteLocationService extends Service {
 
             }
         }
-
 
 
         public void onProviderDisabled(String provider) {

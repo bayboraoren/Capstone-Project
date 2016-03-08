@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.android.capstone.R;
@@ -23,6 +24,9 @@ import java.util.List;
  * Created by baybora on 3/2/16.
  */
 public class Utils {
+
+    public static final String LOG_TAG = Utils.class.getSimpleName();
+
 
     public static String getString(Context context, int name) {
         return context.getResources().getString(name);
@@ -37,7 +41,28 @@ public class Utils {
     public static boolean checkMapPermission(Context context) {
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, context.getResources().getString(R.string.map_permission_message), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.map_permission_message), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean checkLocationServiceEnabled(Context context, LocationManager locationManager){
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+
+            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        } catch(Exception exception) {
+            Log.e(LOG_TAG,exception.getMessage(),exception);
+        }
+
+        if(!gps_enabled && !network_enabled) {
+            Toast.makeText(context, context.getResources().getString(R.string.map_permission_message), Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -51,7 +76,7 @@ public class Utils {
                 context.getSystemService(Context.LOCATION_SERVICE);
 
 
-        if (Utils.checkMapPermission(context)) {
+        if (Utils.checkMapPermission(context) && Utils.checkLocationServiceEnabled(context,mLocationManager)) {
 
             List<String> providers = mLocationManager.getProviders(true);
 

@@ -110,7 +110,7 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, com.example.android.capstone.ResultActivity.class);
-                intent.putExtra(OrderEntityHelper.DOMAIN_NAME,orderEntity);
+                intent.putExtra(OrderEntityHelper.DOMAIN_NAME, orderEntity);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
@@ -122,31 +122,35 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
 
     private void updateMap(){
 
-        SupportMapFragment routeMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.route_map);
-        routeMap.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(final GoogleMap googleMap) {
-                mGoogleMap = googleMap;
+        final Location myLocation = Utils.getLastKnownLocation(mActivity);
 
-                if(orderEntity.getLocationEntity()!=null) {
-                    Location myLocation = Utils.getLastKnownLocation(mActivity);
-                    myLatLng = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
-                }else {
-                    myLatLng = new LatLng(Double.valueOf(orderEntity.getLocationEntity().getLatitude()), Double.valueOf(orderEntity.getLocationEntity().getLongitude()));
+        if(myLocation!=null) {
+
+            SupportMapFragment routeMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.route_map);
+            routeMap.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(final GoogleMap googleMap) {
+                    mGoogleMap = googleMap;
+
+                    if (orderEntity.getLocationEntity() != null) {
+                        myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+                    } else {
+                        myLatLng = new LatLng(Double.valueOf(orderEntity.getLocationEntity().getLatitude()), Double.valueOf(orderEntity.getLocationEntity().getLongitude()));
+                    }
+
+                    toLatLng = new LatLng(Double.parseDouble(orderEntity.getLocationEntity().getLatitude()), Double.parseDouble(orderEntity.getLocationEntity().getLongitude()));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 14));
+
+                    GoogleDirection.withServerKey(getResources().getString(R.string.google_maps_direction_key))
+                            .from(myLatLng)
+                            .to(toLatLng)
+                            .transportMode(TransportMode.WALKING)
+                                    //.avoid(AvoidType.FERRIES)
+                                    //.avoid(AvoidType.HIGHWAYS)
+                            .execute(mActivity);
                 }
-
-                toLatLng = new LatLng(Double.parseDouble(orderEntity.getLocationEntity().getLatitude()), Double.parseDouble(orderEntity.getLocationEntity().getLongitude()));
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 14));
-
-                GoogleDirection.withServerKey(getResources().getString(R.string.google_maps_direction_key))
-                        .from(myLatLng)
-                        .to(toLatLng)
-                        .transportMode(TransportMode.WALKING)
-                                //.avoid(AvoidType.FERRIES)
-                                //.avoid(AvoidType.HIGHWAYS)
-                        .execute(mActivity);
-            }
-        });
+            });
+        }
     }
 
     @Override
