@@ -26,6 +26,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:text="@string/delivery_completed"
+            android:contentDescription="@string/delivery_completed"
             android:textColor="@color/colorPrimary"
             />
 
@@ -42,6 +43,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/order_image_cd"
                 android:layout_margin="10dp" />
 
 

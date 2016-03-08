@@ -76,8 +76,12 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 DriversDomain driversDomain = FirebaseUtil.convertToDriversDomain(dataSnapshot);
-                mName.setText(Utils.getString(getBaseContext(), R.string.hello) + driversDomain.getName());
+
+                String nameText = Utils.getString(getBaseContext(), R.string.hello) + driversDomain.getName();
+                mName.setText(nameText);
+                mName.setContentDescription(nameText);
                 mDriverImageBase64.setImageBitmap(Utils.convertBase64ToImage(driversDomain.getImageBase64()));
+                mDriverImageBase64.setContentDescription(getResources().getString(R.string.driver_image_cd));
             }
 
             @Override
@@ -106,7 +110,9 @@ public class OrdersActivity extends com.example.android.capstone.BaseActivity im
     }
 
     private void setDateForUI() {
-        mDate.setText(new Date().toString());
+        String dateText = new Date().toString();
+        mDate.setText(dateText);
+        mDate.setContentDescription(dateText);
     }
 
 

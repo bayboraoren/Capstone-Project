@@ -97,15 +97,31 @@ public class RouteActivity extends com.example.android.capstone.BaseActivity imp
         orderEntity = getIntent().getExtras().getParcelable(OrderEntityHelper.DOMAIN_NAME);
 
         orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(orderEntity.getImageBase64()));
-        orderName.setText(orderEntity.getName());
-        customerName.setText("to " + orderEntity.getCustomer());
-        orderDistanceKM.setText(orderEntity.getDistanceKM());
+        orderImageBase64.setContentDescription(getResources().getString(R.string.driver_image_cd));
+
+        String orderNameText = orderEntity.getName();
+        orderName.setText(orderNameText);
+        orderName.setContentDescription(orderNameText);
+
+        String customerNameText = orderEntity.getCustomer();
+        customerName.setText("to " + customerNameText);
+        customerName.setContentDescription("order to " + customerNameText);
+
+
+        String orderDistanceKMText = orderEntity.getDistanceKM();
+        orderDistanceKM.setText(orderDistanceKMText);
+        this.orderDistanceKM.setContentDescription(mActivity.getString(R.string.order_distance_cd) + " " + orderDistanceKMText);
+
+
+
+
 
         //init loader
         this.getLoaderManager().restartLoader(LOADER_SEARCH_RESULTS, null, this);
 
 
         //delivered button
+        delivered.setContentDescription(mActivity.getString(R.string.is_delivered));
         delivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

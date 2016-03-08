@@ -22,6 +22,12 @@
     </string>
 
     <!-- Content description -->
+    <string name="driver_image_cd">Driver Image</string>
+    <string name="order_name_cd">Order Name</string>
+    <string name="order_image_cd">Order Image</string>
+    <string name="order_distance_cd">Order Distance</string>
+    <string name="order_selection_cd">Order Selection</string>
+
     <!-- Login -->
     <string name="email_cd">Enter Your Email</string>
     <string name="password_cd">Enter Your Password</string>

@@ -59,6 +59,7 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
     public SearchResultViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View view = this.layoutInflater.inflate(R.layout.order_item, parent, false);
         view.setOnClickListener(this);
+        view.setContentDescription(mActivity.getString(R.string.order_selection_cd));
         return new SearchResultViewHolder(view);
     }
 
@@ -79,6 +80,7 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
 
     @Override
     public void onClick(final View view) {
+
         if (this.onItemClickListener != null) {
 
             final RecyclerView recyclerView = (RecyclerView) view.getParent();
@@ -133,14 +135,25 @@ public class OrdersSearchResultsCursorAdapter extends OrdersRecyclerViewCursorAd
 
             final OrderEntity orderEntity = OrderEntityHelper.convertToOrderEntity(cursor);
 
-            this.orderName.setText(orderEntity.getName());
+            String orderNameText = orderEntity.getName();
+            this.orderName.setText(orderNameText);
+            this.orderName.setContentDescription(mActivity.getString(R.string.order_name_cd) + " " + orderNameText);
+
             this.orderImageBase64.setImageBitmap(Utils.convertBase64ToImage(orderEntity.getImageBase64()));
-            this.orderDistanceKM.setText(orderEntity.getDistanceKM());
+            this.orderImageBase64.setContentDescription(mActivity.getString(R.string.order_image_cd));
+
+            String orderDistanceKMText = orderEntity.getDistanceKM();
+            this.orderDistanceKM.setText(orderDistanceKMText);
+            this.orderDistanceKM.setContentDescription(mActivity.getString(R.string.order_distance_cd) + " " + orderDistanceKMText);
+
+            mItemView.setContentDescription(mActivity.getString(R.string.order_selection_cd) + " "
+                    + orderNameText + " "
+                    + mActivity.getString(R.string.order_distance_cd) + " " + orderDistanceKMText);
 
             //when order selected change background color
-            if(null!=OrderEntityHelper.getSelectedOrder() && orderEntity.get_id()==OrderEntityHelper.getSelectedOrder().get_id()) {
+            if (null != OrderEntityHelper.getSelectedOrder() && orderEntity.get_id() == OrderEntityHelper.getSelectedOrder().get_id()) {
                 this.mItemView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.order_item_background_selected));
-            }else{
+            } else {
                 this.mItemView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.order_item_background));
             }
 
